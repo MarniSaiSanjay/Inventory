@@ -37,6 +37,7 @@ const Dashboard = props => {
     toggleSalesModal,
     togglePurchasesModal, salesAlert, purchasesAlert
   } = props;
+  console.log(user);
   useEffect(() => {
     loadUser();
     getSales();
@@ -55,6 +56,7 @@ const Dashboard = props => {
   const handleLogout = () => {
     logout();
   };
+
 
   if (
     authLoading ||
@@ -75,7 +77,7 @@ const Dashboard = props => {
   } else {
     return (
       <>
-        <Navbar private dashboard />
+        <Navbar private dashboard user={user} />
         <DashboardComponent>
           {/* Welcome!
         {!authLoading && user !== null && user.name}

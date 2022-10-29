@@ -12,9 +12,9 @@ const authenticator = require("../middleware/authenticator");
 // Access -------- Private
 router.get("/", authenticator, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select(["-password", "-_id", "-date", "-__v"]);
+    const user = await User.findById(req.user.id);
 
-    res.json({msg: "User authenticated", user});
+    res.json({ msg: "User authenticated", user });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -39,8 +39,8 @@ router.post(
       "Your username is definitely more than four characters. :-)"
     )
       .optional({ checkFalsy: true })
-      .isLength({ min: 4 })
-    // This above is the shit. .optional passed along with .isLength is used to tell the validator that despite the fact that "company" is an optional field, if it's included, it must not be less than four characters.
+      .isLength({ min: 2 })
+    // This above is the shit. .optional passed along with .isLength is used to tell the validator that despite the fact that "lab" is an optional field, if it's included, it must not be less than four characters.
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -48,12 +48,13 @@ router.post(
       return res.status(422).json({ errors: errors.array() });
     }
 
-    const { username, email, password } = req.body;
+    const { username, email, password, lab } = req.body;
+    console.log(req.body);
 
     try {
       let user;
       if (username) {
-        const findUsername = await User.findOne({ username });
+        const findUsername = await User.findOne({ username, lab });
         if (!findUsername) {
           return res
             .status(400)
@@ -62,7 +63,7 @@ router.post(
         user = findUsername;
       }
       if (email) {
-        const findEmail = await User.findOne({ email });
+        const findEmail = await User.findOne({ email, lab });
         if (!findEmail) {
           return res.status(400).json({ msg: "Invalid email. User not found" });
         }
@@ -92,7 +93,7 @@ router.post(
           res.json({ token, msg: "Logged in successfully." });
         }
       );
-    } catch (err) {}
+    } catch (err) { }
   }
 );
 

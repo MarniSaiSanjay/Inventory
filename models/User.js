@@ -20,9 +20,17 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  company: {
-    type: String
-    // Name of company property isn't required cause a user can decide to open an account for personal uses only
+  lab: {
+    type: String,
+    required: true,
+    enum: ["robotic-technology",
+      "electronics-and-iot",
+      "data-and-software-technology",
+      "animation-and-game-design",
+      "electric-mobility",
+      "finance-technology",
+      "smart-manufacturing",
+      "aeronautics-and-space-technology"]
   },
   date: {
     type: Date,

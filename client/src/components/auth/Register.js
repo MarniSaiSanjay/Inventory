@@ -10,8 +10,8 @@ import {
   registerLoginLoading
 } from "../../actions/authAction";
 
-const Register = ( props ) => {
-  const  {setRegisterLoginLoading, redirectToLogin, alert, register, registerLoginLoading} = props
+const Register = (props) => {
+  const { setRegisterLoginLoading, redirectToLogin, alert, register, registerLoginLoading } = props
   // Refs
   const nameRef = createRef();
   const emailRef = createRef();
@@ -20,6 +20,8 @@ const Register = ( props ) => {
   const confirmPasswordRef = createRef();
   const passwordMainRef = createRef()
   const submitBtn = createRef();
+  const adminSecretRef = createRef();
+
   useEffect(() => {
     if (registerLoginLoading === true) {
       submitBtn.current.value = "Loading...";
@@ -30,8 +32,8 @@ const Register = ( props ) => {
     }
   }, [registerLoginLoading]);
 
-  useEffect( () => {
-    if ( redirectToLogin && alert.length === 0 ) {
+  useEffect(() => {
+    if (redirectToLogin && alert.length === 0) {
       props.history.push("/login")
     }
   }, [redirectToLogin, alert, props.history])
@@ -42,34 +44,26 @@ const Register = ( props ) => {
     username: "",
     password: "",
     confirmPassword: "",
-    company: ""
+    lab: "robotic-technology",
+    adminSecret: ""
   });
 
-  const { name, email, username, password, confirmPassword, company } = user;
+  const { name, email, username, password, confirmPassword, lab, adminSecret } = user;
 
   const [disableSubmit, setDisableSubmit] = useState(true);
 
   const handleSubmit = e => {
     setRegisterLoginLoading()
     e.preventDefault();
-    if ( company ) {
-      register({
-        name,
-        email,
-        username,
-        password,
-        confirmPassword,
-        company
-      });
-    } else {
-      register( {
-        name,
-        email,
-        username,
-        password,
-        confirmPassword
-      });
-    }
+    register({
+      name,
+      email,
+      username,
+      password,
+      confirmPassword,
+      lab,
+      adminSecret
+    });
   }
 
   const emailRegex = /^([a-z0-9\.\-_]+)@([a-z0-9\.\-_]+)\.([a-z]{2,6})$/i;
@@ -95,7 +89,8 @@ const Register = ( props ) => {
       ...user,
       [e.target.name]: e.target.value
     };
-    setUser( updatedUser );
+    console.log(updatedUser);
+    setUser(updatedUser);
     handleErrorMessage(e)
   };
 
@@ -180,9 +175,9 @@ const Register = ( props ) => {
           ))}
         </div>
         <HeaderOne>Create an account</HeaderOne>
-        <p className="helper-form-text">
+        {/* <p className="helper-form-text">
           Already have an account? <Link to="/login">Log In</Link>
-        </p>
+        </p> */}
         <FormComponent onSubmit={handleSubmit} registerLoginForm>
           <div className="form-group">
             <input
@@ -229,14 +224,18 @@ const Register = ( props ) => {
             </small>
           </div>
           <div className="form-group">
-            <input
-              type="text"
-              name="company"
-              id="company"
-              placeholder="Your company"
-              value={company}
-              onChange={onChange}
-            />
+            <label htmlFor="lab">Choose Lab:</label>
+
+            <select name="lab" id="lab" onChange={onChange} value={lab}>
+              <option value="robotic-technology">Robotic Technology</option>
+              <option value="electronics-and-iot">Electronics and IoT</option>
+              <option value="data-and-software-technology">Data and Software Technology</option>
+              <option value="animation-and-game-design">Animation and Game Design</option>
+              <option value="electric-mobility">Electric Mobility</option>
+              <option value="finance-technology">Finanace Technology</option>
+              <option value="smart-manufacturing">Smart Manufacturing</option>
+              <option value="aeronautics-and-space-technology">Aeronautics and Space Technology</option>
+            </select>
           </div>
           <div className="form-group">
             <input
@@ -267,6 +266,21 @@ const Register = ( props ) => {
             />
             <small ref={confirmPasswordRef} style={errorMessageStyle}>
               Passwords don't match
+            </small>
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              name="adminSecret"
+              id="adminSecret"
+              required
+              placeholder="Enter Admin Secret"
+              value={adminSecret}
+              onChange={onChange}
+              minLength="5"
+            />
+            <small ref={adminSecretRef} style={errorMessageStyle}>
+              Wrong Admin Secret
             </small>
           </div>
           <input

@@ -35,11 +35,14 @@ router.post(
       return res.status(422).json({ errors: errors.array() });
     }
 
-    const { name, email, username, password, company } = req.body;
+    const { name, email, username, password, lab, adminSecret } = req.body;
+    if (adminSecret !== process.env.ADMIN_SECRET)
+      return res.status(400).json({ msg: "Admin Secret is Wrong" })
+    console.log(req.body);
 
     try {
-      let user = await User.findOne({ email });
-      let findUsername = await User.findOne({ username });
+      let user = await User.findOne({ email, lab });
+      let findUsername = await User.findOne({ username, lab });
 
       // Check that no two users are created that have the same email and usernames
 
@@ -70,7 +73,7 @@ router.post(
         email,
         username,
         password,
-        company
+        lab
       });
 
       // hash password with bcrypt
@@ -129,7 +132,7 @@ router.put(
         .optional({ checkFalsy: true })
         .isLength({ min: 4 })
         .isLength({ min: 5 }),
-      check("company", "You company name must be at least 4 characters")
+      check("lab", "You lab name must be at least 4 characters")
         .optional({ checkFalsy: true })
         .isLength({ min: 4 })
     ]
@@ -149,20 +152,20 @@ router.put(
         return res.status(401).json({ msg: "Not authorized" });
       }
 
-      const { name, email, password, username, company } = req.body;
+      const { name, email, password, username, lab } = req.body;
 
       // check if email or username is already taken
-      const checkUsername = await User.findOne({username})
-      const checkEmail = await User.findOne({email})
+      const checkUsername = await User.findOne({ username, lab })
+      const checkEmail = await User.findOne({ email, lab })
 
-      if ( checkUsername && checkEmail ) {
-        return res.status(400).json({msg: "Username and Email are already taken"})
+      if (checkUsername && checkEmail) {
+        return res.status(400).json({ msg: "Username and Email are already taken" })
       }
-      if ( checkUsername ) {
-        return res.status( 400 ).json( { msg: "Username is already taken" } )
+      if (checkUsername) {
+        return res.status(400).json({ msg: "Username is already taken" })
       }
-      if ( checkEmail) {
-        return res.status(400).json({msg: "Email is already taken"})
+      if (checkEmail) {
+        return res.status(400).json({ msg: "Email is already taken" })
       }
 
       let userField = {};
@@ -178,10 +181,10 @@ router.put(
         userField.password = await bcrypt.hash(password, salt);
       }
       if (username) {
-        userField.username = username;
+        userField.username = username
       }
-      if (company) {
-        userField.company = company;
+      if (lab) {
+        userField.lab = lab;
       }
 
       user = await User.findByIdAndUpdate(

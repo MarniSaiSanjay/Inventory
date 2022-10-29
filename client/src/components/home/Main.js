@@ -241,7 +241,7 @@ const Main = () => {
                 waveform of electronic signals. Digital M
               </p>
               <Link
-                to={{ pathname: "login", state: { lab: "electronics-iot" } }}
+                to={{ pathname: "login", state: { lab: "electronics-and-iot" } }}
                 className="get-started"
               >
                 Login as Lab-In-charge
@@ -284,7 +284,7 @@ const Main = () => {
               <Link
                 to={{
                   pathname: "login",
-                  state: { lab: "animation-and-gaming" },
+                  state: { lab: "animation-and-game-design" },
                 }}
                 className="get-started"
               >
@@ -332,7 +332,7 @@ const Main = () => {
               <Link
                 to={{
                   pathname: "login",
-                  state: { lab: "aeronautics-and-space" },
+                  state: { lab: "aeronautics-and-space-technology" },
                 }}
                 className="get-started"
               >

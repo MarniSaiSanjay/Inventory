@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createRef } from "react";
 import Navbar from "../home/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { HeaderOne, FormComponent } from "../../StyledComponents/utility";
 import LoginComponent from "../../StyledComponents/auth/Login";
 import { connect } from "react-redux";
@@ -19,6 +19,8 @@ const Login = (props) => {
     login,
     clearRedirectToLogin
   } = props;
+
+  const location = useLocation();
   // refs
   const submitBtn = createRef();
   useEffect(() => {
@@ -36,17 +38,18 @@ const Login = (props) => {
       props.history.push("/dashboard");
     }
   }, [isAuthenticated, alert, props.history]);
-
+  console.log(location.state)
   const [user, setUser] = useState({
     usernameOrEmail: "",
-    password: ""
+    password: "",
+    lab: location?.state?.lab ? location.state.lab : "robotic-technology"
   });
 
-  useEffect( () => {
+  useEffect(() => {
     clearRedirectToLogin()
   }, [])
 
-  const { usernameOrEmail, password } = user;
+  const { usernameOrEmail, password, lab } = user;
 
   const [disableSubmit, setDisableSubmit] = useState(true);
 
@@ -85,12 +88,14 @@ const Login = (props) => {
     if (emailRegex.test(usernameOrEmail)) {
       login({
         email: usernameOrEmail,
-        password: password
+        password: password,
+        lab: lab
       });
     } else {
       login({
         username: usernameOrEmail,
-        password: password
+        password: password,
+        lab: lab
       });
     }
   };
@@ -134,6 +139,21 @@ const Login = (props) => {
               minLength="3"
             />
           </div>
+          <div className="form-group">
+            <label htmlFor="lab">Choose Lab:</label>
+
+            <select name="lab" id="lab" onChange={onChange} value={location?.state?.lab}>
+              <option value="robotic-technology">Robotic Technology</option>
+              <option value="electronics-and-iot">Electronics and IoT</option>
+              <option value="data-and-software-technology">Data and Software Technology</option>
+              <option value="animation-and-game-design">Animation and Game Design</option>
+              <option value="electric-mobility">Electric Mobility</option>
+              <option value="finance-technology">Finanace Technology</option>
+              <option value="smart-manufacturing">Smart Manufacturing</option>
+              <option value="aeronautics-and-space-technology">Aeronautics and Space Technology</option>
+            </select>
+          </div>
+
           <div className="form-group">
             <input
               type="password"

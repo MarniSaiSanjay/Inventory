@@ -7,6 +7,7 @@ A MERN stack application that business owners(retailers, wholesalers etc) can us
 ## What exactly is this?
 
 A React/Redux/Styled-components powered frontend app that sends request to and receives data from an Express/MongoDB powered Backend API.
+
 <!-- Explain further -->
 
 ![](https://res.cloudinary.com/djksghat4/image/upload/v1580556822/inventory-app/fotia2.png)
@@ -30,24 +31,25 @@ A React/Redux/Styled-components powered frontend app that sends request to and r
 ## Todo
 
 - Frontend Responsiveness: I used just styled components. So, I'll make out time to ensure the app is fully responsive soon.
-  >update: done
+
+  > update: done
 
 - Display weekly and monthly Sales and purchases on the dashboard along with total profit made during the period.
 
 - Search
 
-- Users should be able to edit their details(change password, name, email, username, company): There's already endpoints for this on the BE but they've not been implemented on the FE
+- Users should be able to edit their details(change password, name, email, username, lab): There's already endpoints for this on the BE but they've not been implemented on the FE
 
 - Remove some lorem ipsums that are still on the landing page.
 
 - Deploy to Heroku or Zeit Now
-  >update: done
+  > update: done
 
 ## API docs
 
 ### Routes
 
-- `/api/allUsers`: This GET route serves json of all registers users as an array of objects(when parsed). Fields include `memberSince`, `username`, `email`, `company`
+- `/api/allUsers`: This GET route serves json of all registers users as an array of objects(when parsed). Fields include `memberSince`, `username`, `email`, `lab`
 
 - `/api/auth`: This route does two things. The GET method authenticates a logged in user(private route and requires a token) by using the token to check for the user. Thereby returning the currently logged in user. The POST method is used for logging in a user and authenticating them. Fields required: one of of `email` or `username` and `password`.
 
@@ -63,6 +65,6 @@ A React/Redux/Styled-components powered frontend app that sends request to and r
 
 - `/api/users`: This has POST, PUT and DEL methods. They respectively create users, edit users' details and delete users.
 
------------------
+---
 
 This project is the finished version of [yarapi](https://github.com/Eronmmer/yarapi)

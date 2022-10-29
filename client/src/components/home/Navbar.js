@@ -4,11 +4,23 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux'
 import { logout } from '../../actions/authAction'
 
+const labs = {
+  "robotic-technology": "Robotic Technology",
+  "electronics-and-iot": "Electronics and IoT",
+  "data-and-software-technology": "Data and Software Technology",
+  "animation-and-game-design": "Animation and Game Design",
+  "electric-mobility": "Electric Mobility",
+  "finance-technology": "Finanace Technology",
+  "smart-manufacturing": "Smart Manufacturing",
+  "aeronautics-and-space-technology": "Aeronautics and Space Technology"
+}
+
 const Navbar = (props) => {
-  const { logout } = props
+  const { logout, user } = props
   const publicLInksStyle = {
     display: props.private ? "none" : "inline"
   }
+  console.log(user);
 
   const handleLogout = () => {
     logout();
@@ -27,6 +39,10 @@ const Navbar = (props) => {
             <Link to={props.private ? "/dashboard" : "/"}>
               NVCTI
             </Link>
+            {
+              user ? <div>{labs[user.lab]}</div> : ""
+            }
+
           </li>
         </div>
         <div
@@ -36,8 +52,12 @@ const Navbar = (props) => {
           className="right"
         >
           <li style={publicLInksStyle} className="login">
-            <Link to="/login">Log In</Link>
+            <Link to="/login">Log in</Link>
           </li>
+          <li style={publicLInksStyle} className="login">
+            <Link to="/register">Sign up</Link>
+          </li>
+
           <li
             style={{ display: props.public ? "none" : "inline" }}
             className="settings"

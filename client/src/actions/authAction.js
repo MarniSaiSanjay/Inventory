@@ -41,6 +41,7 @@ export const login = data => async dispatch => {
   const id = uuid.v4();
   try {
     const res = await callAxios("POST", "/auth", data);
+    console.log(res.data);
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data,
@@ -57,15 +58,15 @@ export const login = data => async dispatch => {
       alert:
         err.response.status === 400
           ? {
-              msg: "Incorrect username or password",
-              type: "failure",
-              id
-            }
+            msg: "Incorrect username or password",
+            type: "failure",
+            id
+          }
           : {
-              msg: "Something went wrong. please refresh the page.",
-              type: "failure",
-              id
-            }
+            msg: "Something went wrong. please refresh the page.",
+            type: "failure",
+            id
+          }
     });
   } finally {
     setTimeout(() => {
@@ -77,10 +78,11 @@ export const login = data => async dispatch => {
   }
 };
 
-export const register = ( data ) => async dispatch => {
+export const register = (data) => async dispatch => {
   const id = uuid.v4()
   try {
     const res = await callAxios("POST", "/users", data);
+    console.log(res.data);
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data,
@@ -91,24 +93,24 @@ export const register = ( data ) => async dispatch => {
       }
     });
   } catch (err) {
-     dispatch({
+    dispatch({
       type: REGISTER_FAIL,
       payload: err.response,
       alert:
         err.response.status === 400
           ? {
-              msg: err.response.data.msg,
-              type: "failure",
-              id
-            }
+            msg: err.response.data.msg,
+            type: "failure",
+            id
+          }
           : {
-              msg: "Something went wrong. please refresh the page.",
-              type: "failure",
-              id
-            }
+            msg: "Something went wrong. please refresh the page.",
+            type: "failure",
+            id
+          }
     });
   } finally {
-setTimeout(() => {
+    setTimeout(() => {
       dispatch({
         type: CLEAR_ALERT,
         payload: id
