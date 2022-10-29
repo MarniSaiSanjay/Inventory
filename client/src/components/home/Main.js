@@ -96,7 +96,7 @@ const Main = () => {
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et
                 consequuntur recusandae asperiores delectus fugiat ad omnis,
                 magnam, quam eaque eos mollitia at assumenda facilis facere,
-                voluptate ullam vero incidunt praesentium?
+                voluptate ullam vero incidunt praesentium kn?
               </p>
             </FeatureOpenedContent>
 
