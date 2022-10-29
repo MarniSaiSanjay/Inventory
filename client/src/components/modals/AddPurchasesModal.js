@@ -65,8 +65,8 @@ const AddPurchasesModal = props => {
               <input
                 className="secondChildModal"
                 type="number"
-                name="numberBought"
-                id="numberBought"
+                name="quantity"
+                id="quantity"
                 min="1"
                 required
                 placeholder="How many did you purchase"

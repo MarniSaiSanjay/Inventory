@@ -59,23 +59,24 @@ router.post(
 
     // const { name, history, costPrice, sellingPrice } = req.body;
     const { name, history, description } = req.body;
+    console.log(history);
 
     try {
       let findName = await Purchase.findOne({ name });
       let findUser = await Purchase.findOne({ user: req.user.id });
       if (findName && findUser) {
         // since purchase already exists, make PUT request to update history
-        findName = await Purchase.find({name})
-        findUser = await Purchase.find( { user: req.user.id } )
+        findName = await Purchase.find({ name })
+        findUser = await Purchase.find({ user: req.user.id })
         let purchaseArr = findName.filter(name => name.user.toString() === req.user.id)
-        let requiredPurchase = findUser.find( elem => elem.name == purchaseArr[ 0 ].name )
+        let requiredPurchase = findUser.find(elem => elem.name == purchaseArr[0].name)
         let id = requiredPurchase._id
         instance.defaults.headers.common["inventory-app-token"] = req.header(
           "inventory-app-token"
         );
         callAxios("PUT", `/purchases/${id}`, {
           history
-        } );
+        });
         return res.status(200).json({ msg: "Purchase already exists but has just being updated" });
       }
 
@@ -138,15 +139,15 @@ router.post(
       //   amountAvailable: history[history.length - 1].quantity
       // });
       // try{
-        // console.log(1);
-        callAxios("POST", "/products", {
-          name,
-          description,
-          amountAvailable: history[history.length - 1].quantity
-        });
+      // console.log(1);
+      callAxios("POST", "/products", {
+        name,
+        description,
+        amountAvailable: history[history.length - 1].quantity
+      });
       // }
       // catch(e){
-        // console.log(e);
+      // console.log(e);
       // }
       // Check if supplier already exists. If not, add him if yes. edit their history
       // const suppliersRes = await instance.get("/suppliers")
@@ -159,7 +160,7 @@ router.post(
       //   supplier => supplier.name === history[history.length - 1].boughtFrom
       // );
       // console.log(checkSuppliersName)
-      
+
       // if (checkSuppliersName.length === 0) {
       //   // create new supplier
       //   let supplierHistory = [
@@ -264,7 +265,7 @@ router.put("/:purchaseId", authenticator, async (req, res) => {
       purchaseField.history = updatedHistory;
     }
 
-    if(description){
+    if (description) {
       purchaseField.description = description;
     }
     // if (sellingPrice) {
@@ -295,10 +296,10 @@ router.put("/:purchaseId", authenticator, async (req, res) => {
     instance.defaults.headers.common["inventory-app-token"] = req.header(
       "inventory-app-token"
     );
-    callAxios( "PUT", `/products/${requiredProduct._id}`, {
-      amountAvailable: requiredProduct.amountAvailable + history[history.length - 1].quantity
-    } )
-    
+    callAxios("PUT", `/products/${requiredProduct._id}`, {
+      amountAvailable: Number(requiredProduct.amountAvailable) + Number(history[history.length - 1].quantity)
+    })
+
     // const findSupplier = await Supplier.find( { name: history[ history.length - 1 ].boughtFrom } )
     // let requiredSupplier;
     // if ( findSupplier ) {

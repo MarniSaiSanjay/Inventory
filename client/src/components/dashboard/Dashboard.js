@@ -60,8 +60,6 @@ const Dashboard = props => {
 
     }
     getAllProducts();
-
-
   }, [])
 
 
@@ -204,17 +202,18 @@ const Dashboard = props => {
                           <b className="all-stuff-content-bold">Name of product:</b>{" "}
                           {elem.name}
                         </p>
-                        <p>
-                          <b className="all-stuff-content-bold">Cost price:</b>{" "}
+                        {/* <p>
+                          <b className="all-stuff-content-bold">description:</b>{" "}
                           #{elem.costPrice}
-                        </p>
-                        <p>
-                          <b className="all-stuff-content-bold">Selling price:</b>{" "}
-                          #{elem.sellingPrice}
-                        </p>
+                        </p> */}
+                        {/* 
                         <p>
                           <b className="all-stuff-content-bold">Amount available:</b>{" "}
                           {elem.amountAvailable}
+                        </p> */}
+                        <p>
+                          <b className="all-stuff-content-bold">Description:</b>{" "}
+                          {elem.description}
                         </p>
                       </div>
                     ))

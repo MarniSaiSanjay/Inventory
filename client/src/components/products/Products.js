@@ -4,11 +4,11 @@ import { loadUser } from "../../actions/authAction";
 import { getProducts } from "../../actions/productsAction";
 import Spinner from "../layout/Spinner";
 import Navbar from "../home/Navbar";
-import {AllStuff} from "../../StyledComponents/utility"
+import { AllStuff } from "../../StyledComponents/utility"
 import ProductsComponent from "../../StyledComponents/private/Products";
 
 const Products = props => {
-  const { loadUser, getProducts, products,user, isAuthenticated, authLoading } = props;
+  const { loadUser, getProducts, products, user, isAuthenticated, authLoading } = props;
   useEffect(() => {
     loadUser();
     getProducts();
@@ -41,17 +41,18 @@ const Products = props => {
                     <b className="all-stuff-content-bold">Name of product:</b>{" "}
                     {elem.name}
                   </p>
-                  <p>
-                    <b className="all-stuff-content-bold">Cost price:</b>{" "}
-                    #{elem.costPrice}
-                  </p>
-                  <p>
-                    <b className="all-stuff-content-bold">Selling price:</b>{" "}
-                    #{elem.sellingPrice}
-                  </p>
+                  {/* <p>
+                          <b className="all-stuff-content-bold">description:</b>{" "}
+                          #{elem.costPrice}
+                        </p> */}
+
                   <p>
                     <b className="all-stuff-content-bold">Amount available:</b>{" "}
                     {elem.amountAvailable}
+                  </p>
+                  <p>
+                    <b className="all-stuff-content-bold">Description:</b>{" "}
+                    #{elem.description}
                   </p>
                 </div>
               ))
