@@ -14,8 +14,8 @@ export const HeaderOne = styled.h1`
   }
 
   ${props =>
-    props.home &&
-    css`
+        props.home &&
+        css`
       /* margin-top: 10rem !important; */
       font-size: 3rem;
       margin-left: auto;
@@ -40,8 +40,8 @@ export const HeaderTwo = styled.h2`
   }
 
   ${props =>
-    props.home &&
-    css`
+        props.home &&
+        css`
       text-align: center;
 
       &:hover {
@@ -53,15 +53,15 @@ export const HeaderTwo = styled.h2`
 // Features Click Paragraph(Home Page)
 export const FeatureClickParagraph = styled.p`
   ${props =>
-    props.clicked &&
-    css`
+        props.clicked &&
+        css`
       color: #2b2e94;
     `}
   img {
     display: none;
     ${props =>
-      props.clicked &&
-      css`
+        props.clicked &&
+        css`
         display: inline;
       `}
   }
@@ -73,15 +73,15 @@ export const FeatureOpenedContent = styled.div`
   transition: ease all 1s;
   opacity: 0;
   ${props =>
-    props.showContent &&
-    css`
+        props.showContent &&
+        css`
       display: block;
       opacity: 1;
     `}
 
   ${props =>
-    props.mobileOpenerContent &&
-  css`
+        props.mobileOpenerContent &&
+        css`
     & h3 {
       display: none;
     }
@@ -132,8 +132,8 @@ export const FormComponent = styled.form`
     /* The above is subject to change */
 
     ${props =>
-      props.registerLoginForm &&
-      css`
+        props.registerLoginForm &&
+        css`
         border-top: none;
         border-left: none;
         border-right: none;
@@ -164,8 +164,8 @@ export const FormComponent = styled.form`
   .form-group {
     margin: 1.2rem 0;
     ${props =>
-      props.registerLoginForm &&
-      css`
+        props.registerLoginForm &&
+        css`
         &:first-child {
           input {
             margin-top: 0;
@@ -177,8 +177,8 @@ export const FormComponent = styled.form`
   .form-group input {
     margin: 0.2rem 0;
     ${props =>
-      props.registerLoginForm &&
-      css`
+        props.registerLoginForm &&
+        css`
         margin-top: 2.3rem;
       `}
   }
@@ -351,8 +351,8 @@ export const Button = styled.button`
   margin-right: auto;
 
   ${props =>
-    props.submitButton &&
-    css`
+        props.submitButton &&
+        css`
       background: #0069d9;
       margin: 1rem auto;
       padding: 0.5rem 1.4rem;
@@ -365,8 +365,8 @@ export const Button = styled.button`
     `}
 
   ${props =>
-    props.closeButton &&
-    css`
+        props.closeButton &&
+        css`
       background: #dc3545;
       margin: 1.3rem 0 0 auto;
       padding: 0.5rem 1rem;
