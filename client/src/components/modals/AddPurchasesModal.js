@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { Modal, Button } from "../../StyledComponents/utility";
 import { connect } from "react-redux";
 import { togglePurchasesModal } from "../../actions/modalAction";
-import { addPurchase} from "../../actions/purchasesAction"
+import { addPurchase } from "../../actions/purchasesAction"
 
 const AddPurchasesModal = props => {
   const { togglePurchasesModal, showPurchasesModal, addPurchase } = props;
@@ -18,12 +18,10 @@ const AddPurchasesModal = props => {
 
   const [sale, setSale] = useState({
     name: "",
-    numberBought: "",
-    boughtFrom: "",
-    costPrice: "",
-    sellingPrice: ""
+    quantity: "",
+    description: ""
   });
-  const { name, numberBought, boughtFrom, costPrice, sellingPrice } = sale;
+  const { name, quantity, description } = sale;
 
   const handleChange = e => {
     setSale({ ...sale, [e.target.name]: e.target.value });
@@ -33,12 +31,10 @@ const AddPurchasesModal = props => {
     e.preventDefault();
     addPurchase({
       name,
-      costPrice, 
-      sellingPrice,
+      description,
       history: [
         {
-          numberBought,
-          boughtFrom
+          quantity,
         }
       ]
     });
@@ -49,7 +45,7 @@ const AddPurchasesModal = props => {
     <Modal>
       <div className="modalFlex">
         <div ref={modalContent} className="modalContent">
-          <h2 className="modalHeader"> Add a purchase</h2>
+          <h2 className="modalHeader"> Add New Items</h2>
           <form onSubmit={handleSubmit}>
             <div className="modalFlexInput">
               <p>Name: </p>{" "}
@@ -65,7 +61,7 @@ const AddPurchasesModal = props => {
               />
             </div>
             <div className="modalFlexInput">
-              <p>Number bought: </p>{" "}
+              <p>Quantity: </p>{" "}
               <input
                 className="secondChildModal"
                 type="number"
@@ -74,11 +70,11 @@ const AddPurchasesModal = props => {
                 min="1"
                 required
                 placeholder="How many did you purchase"
-                value={numberBought}
+                value={quantity}
                 onChange={handleChange}
               />
             </div>
-            <div className="modalFlexInput">
+            {/* <div className="modalFlexInput">
               <p>Bought from: </p>{" "}
               <input
                 className="secondChildModal"
@@ -90,8 +86,8 @@ const AddPurchasesModal = props => {
                 value={boughtFrom}
                 onChange={handleChange}
               />
-            </div>
-            <div className="modalFlexInput">
+            </div> */}
+            {/* <div className="modalFlexInput">
               <p>Cost price: </p>{" "}
               <input
                 className="secondChildModal"
@@ -104,8 +100,8 @@ const AddPurchasesModal = props => {
                 value={costPrice}
                 onChange={handleChange}
               />
-            </div>
-            <div className="modalFlexInput">
+            </div> */}
+            {/* <div className="modalFlexInput">
               <p>Selling price: </p>{" "}
               <input
                 className="secondChildModal"
@@ -116,6 +112,19 @@ const AddPurchasesModal = props => {
                 required
                 placeholder="How much do you wish to sell this product"
                 value={sellingPrice}
+                onChange={handleChange}
+              />
+
+            </div> */}
+            <div className="modalFlexInput">
+              <p>Description: </p>{" "}
+              <textarea
+                className="secondChildModal"
+                type="text"
+                name="description"
+                id="description"
+                placeholder="Write Specification"
+                value={description}
                 onChange={handleChange}
               />
             </div>

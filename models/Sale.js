@@ -5,7 +5,7 @@ const SaleSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "users"
   },
-  name: {
+  name: {  //array of 
     type: String,
     required: true
   },

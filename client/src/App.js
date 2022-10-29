@@ -38,7 +38,6 @@ function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/company" component={Company} />
-          <Route exact path="/company" component={Company} />
           <Route exact component={Dashboard} path="/dashboard" />
           <Route exact path="/settings" component={Settings} />
           <Route exact path="/sales" component={Sales} />
@@ -47,7 +46,7 @@ function App() {
           <Route exact path="/suppliers" component={Suppliers} />
           <Route exact path="/customers" component={Customers} />
 
-          <Route component={NotFound}/>
+          <Route component={NotFound} />
         </Switch>
         <Modals />
       </Router>

@@ -3,9 +3,11 @@ import { Button, Modal } from "../../StyledComponents/utility";
 import { connect } from "react-redux";
 import { toggleSalesModal } from "../../actions/modalAction";
 import { addSale } from "../../actions/salesAction";
+import callAxios from "../../utils/callAxios";
 
 const AddSalesModal = props => {
   const { showSalesModal, toggleSalesModal, addSale } = props;
+
   const modalContent = useRef(null);
   useEffect(() => {
     window.addEventListener("click", e => {
@@ -37,14 +39,27 @@ const AddSalesModal = props => {
           numberSold
         }
       ]
-    } );
+    });
     toggleSalesModal();
   };
+  const [allProducts, setAllProducts] = useState(null)
+
+  useEffect(() => {
+    const getAllProducts = async () => {
+      const res = await callAxios("GET", "/products");
+      console.log(res);
+      setAllProducts(res.data.products)
+
+    }
+    getAllProducts();
+
+
+  }, [])
   return (
     <Modal>
       <div className="modalFlex">
         <div ref={modalContent} className="modalContent">
-          <h2 className="modalHeader">Add a Sale</h2>
+          <h2 className="modalHeader">Issue Items</h2>
           <form onSubmit={handleSubmit}>
             <div className="modalFlexInput">
               <p>Name: </p>{" "}

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { loadUser, logout } from "../../actions/authAction";
@@ -14,6 +14,10 @@ import {
 import Spinner from "../layout/Spinner";
 import DashboardComponent from "../../StyledComponents/private/Dashboard";
 import Navbar from "../home/Navbar";
+import { Button } from "../../StyledComponents/utility";
+import ProductsComponent from "../../StyledComponents/private/Products";
+import { AllStuff } from "../../StyledComponents/utility";
+import callAxios from "../../utils/callAxios";
 
 const Dashboard = props => {
   const {
@@ -35,9 +39,9 @@ const Dashboard = props => {
     authLoading,
     logout,
     toggleSalesModal,
-    togglePurchasesModal, salesAlert, purchasesAlert
+    togglePurchasesModal, salesAlert, purchasesAlert,
   } = props;
-  console.log(user);
+
   useEffect(() => {
     loadUser();
     getSales();
@@ -46,6 +50,20 @@ const Dashboard = props => {
     getSuppliers();
     getCustomers();
   }, []);
+  const [allProducts, setAllProducts] = useState(null)
+
+  useEffect(() => {
+    const getAllProducts = async () => {
+      const res = await callAxios("GET", "/products");
+      console.log(res);
+      setAllProducts(res.data.products)
+
+    }
+    getAllProducts();
+
+
+  }, [])
+
 
   useEffect(() => {
     if (!isAuthenticated && !authLoading) {
@@ -64,7 +82,8 @@ const Dashboard = props => {
     purchasesDashboard === null ||
     productsDashboard === null ||
     suppliersDashboard === null ||
-    customersDashboard === null
+    customersDashboard === null ||
+    allProducts === null
   ) {
     return (
       <>
@@ -115,24 +134,7 @@ const Dashboard = props => {
                 </div>
               </div>
             </div>
-            <div className="right">
-              <div className="add">
-                <p
-                  onClick={toggleSalesModal}
-                  title="Add a sale"
-                  className="add-sale"
-                >
-                  Add Sale
-                </p>
-                <p
-                  onClick={togglePurchasesModal}
-                  title="Add a purchase"
-                  className="add-purchase"
-                >
-                  Add Purchase
-                </p>
-              </div>
-
+            <div className="right" style={{ padding: "1rem" }}>
               <div>
                 {salesAlert.map(elem => (
                   <p
@@ -169,10 +171,62 @@ const Dashboard = props => {
                   </p>
                 ))}
               </div>
+              <div className="right" style={{ padding: "1rem", paddingBottom: "1rem" }}>
+                <div className="add">
+                  <Button
+                    onClick={toggleSalesModal}
+                    title="Add a sale"
+                    className="add-sale"
+                    style={{ backgroundColor: "#323237", marginBottom: "1rem" }}
+                  >
+                    Issue Items
+                  </Button>
+                  <Button
+                    onClick={togglePurchasesModal}
+                    title="Add a purchase"
+                    className="add-purchase"
+                    style={{ backgroundColor: "#323237", marginBottom: "1rem" }}
 
-              <h1 className="dashboard-header">Recent Activities</h1>
+                  >
+                    Add New Items
+                  </Button>
+                </div>
+              </div>
 
-              <div className="recent recent-sales">
+
+              <ProductsComponent>
+                <h1 className="products-header">All Available Items</h1>
+                <AllStuff>
+                  {allProducts.length !== 0 ? (
+                    allProducts.map((elem, index) => (
+                      <div key={index} className="all-stuff-content">
+                        <p>
+                          <b className="all-stuff-content-bold">Name of product:</b>{" "}
+                          {elem.name}
+                        </p>
+                        <p>
+                          <b className="all-stuff-content-bold">Cost price:</b>{" "}
+                          #{elem.costPrice}
+                        </p>
+                        <p>
+                          <b className="all-stuff-content-bold">Selling price:</b>{" "}
+                          #{elem.sellingPrice}
+                        </p>
+                        <p>
+                          <b className="all-stuff-content-bold">Amount available:</b>{" "}
+                          {elem.amountAvailable}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <h4 className="all-stuff-headers">
+                      You don't have any Products yet
+                    </h4>
+                  )}
+                </AllStuff>
+              </ProductsComponent>
+
+              {/* <div className="recent recent-sales">
                 <h2 className="recent-headers">Recent Sales</h2>
                 <div className="your-recent-content-wrapper">
                   {salesDashboard.length !== 0 ? (
@@ -200,7 +254,8 @@ const Dashboard = props => {
                     <h4 className="no-recent">No recent sales</h4>
                   )}
                 </div>
-              </div>
+              </div> */}
+              {/* 
               <div className="recent recent-purchases">
                 <h2 className="recent-headers">Recent Purchases</h2>
                 <div className="your-recent-content-wrapper">
@@ -235,7 +290,9 @@ const Dashboard = props => {
                     <h4 className="no-recent">No recent purchase</h4>
                   )}
                 </div>
-              </div>
+              </div> */}
+
+              {/* 
               <div className="recent recent-products">
                 <h2 className="recent-headers">Latest Products</h2>
                 <div className="your-recent-content-wrapper">
@@ -268,7 +325,9 @@ const Dashboard = props => {
                     <h4 className="no-recent">No latest products</h4>
                   )}
                 </div>
-              </div>
+              </div> */}
+              {/* 
+
               <div className="recent recent-customers">
                 <h2 className="recent-headers">Newest Customers</h2>
                 <div className="your-recent-content-wrapper">
@@ -293,7 +352,8 @@ const Dashboard = props => {
                     <h4 className="no-recent">No new customer</h4>
                   )}
                 </div>
-              </div>
+              </div> */}
+              {/*               
               <div className="recent recent-suppliers">
                 <h2 className="recent-headers">Newest Suppliers</h2>
                 <div className="your-recent-content-wrapper">
@@ -316,7 +376,7 @@ const Dashboard = props => {
                     <h4 className="no-recent">No new supplier</h4>
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </DashboardComponent>

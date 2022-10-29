@@ -8,11 +8,12 @@ import { AllStuff } from "../../StyledComponents/utility"
 import PurchasesComponent from "../../StyledComponents/private/Purchases";
 
 const Purchases = props => {
-  const { loadUser, user, purchases, getPurchases, isAuthenticated, authLoading } = props;
+  const { loadUser, user, purchases, getPurchases, isAuthenticated, authLoading, products } = props;
+  console.log(purchases)
   useEffect(() => {
     loadUser();
     getPurchases();
-  }, [] );
+  }, []);
   useEffect(() => {
     if (!isAuthenticated && !authLoading) {
       props.history.push("/");

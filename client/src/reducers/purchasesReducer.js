@@ -21,6 +21,8 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case GET_PURCHASES:
       action.payload.forEach((elem, index) => {
+        // console.log("Elem", elem)
+        // purchasesArr = elem.history;
         elem.history.forEach((e, i) => {
           purchasesArr.push({
             name: elem.name,

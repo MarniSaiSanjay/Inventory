@@ -142,7 +142,7 @@ const Login = (props) => {
           <div className="form-group">
             <label htmlFor="lab">Choose Lab:</label>
 
-            <select name="lab" id="lab" onChange={onChange} value={location?.state?.lab}>
+            <select name="lab" id="lab" onChange={onChange} value={lab}>
               <option value="robotic-technology">Robotic Technology</option>
               <option value="electronics-and-iot">Electronics and IoT</option>
               <option value="data-and-software-technology">Data and Software Technology</option>
