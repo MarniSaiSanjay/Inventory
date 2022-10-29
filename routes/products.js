@@ -31,10 +31,13 @@ router.post(
       check("name")
         .not()
         .isEmpty(),
-      check("costPrice")
-        .not()
-        .isEmpty(),
-      check("sellingPrice")
+      // check("costPrice")
+      //   .not()
+      //   .isEmpty(),
+      // check("sellingPrice")
+      // .not()
+      // .isEmpty(),
+      check("description")
         .not()
         .isEmpty(),
       check("amountAvailable")
@@ -48,7 +51,10 @@ router.post(
       return res.json({ errors: errors.array() });
     }
 
-    const { name, costPrice, sellingPrice, amountAvailable } = req.body;
+    // const { name, costPrice, sellingPrice, amountAvailable } = req.body;
+
+    const { name, amountAvailable, description } = req.body;
+    console.log(req.body);
 
     try {
       let findProductName = await Product.findOne({ name });
@@ -58,11 +64,18 @@ router.post(
         return res.status(400).json({ msg: "Product already exists!" });
       }
 
+      // let newProduct = new Product({
+      //   name,
+      //   costPrice,
+      //   sellingPrice,
+      //   amountAvailable,
+      //   user: req.user.id
+      // });
+
       let newProduct = new Product({
         name,
-        costPrice,
-        sellingPrice,
         amountAvailable,
+        description,
         user: req.user.id
       });
 
@@ -89,20 +102,25 @@ router.put("/:productId", authenticator, async (req, res) => {
       return res.status(401).json({ msg: "Not authorized" });
     }
 
-    const { costPrice, sellingPrice, amountAvailable } = req.body;
+    // const { costPrice, sellingPrice, amountAvailable } = req.body;
+    const { amountAvailable, description } = req.body;
+
     let productField = {};
-    if (costPrice) {
-      productField.costPrice = costPrice;
-    }
-    if (sellingPrice) {
-      productField.sellingPrice = sellingPrice;
+    // if (costPrice) {
+    //   productField.costPrice = costPrice;
+    // }
+    // if (sellingPrice) {
+    //   productField.sellingPrice = sellingPrice;
+    // }
+    if (description) {
+      productField.description = description;
     }
     if (amountAvailable) {
       productField.amountAvailable = amountAvailable;
     }
 
     product = await Product.findOneAndUpdate(
-      {_id: req.params.productId},
+      { _id: req.params.productId },
       {
         $set: productField
       },

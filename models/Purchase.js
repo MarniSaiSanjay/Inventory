@@ -13,21 +13,25 @@ const PurchaseSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  costPrice: {
-    type: Number,
-    required: true
+  description:{
+    type: String,
+    default: "NA"
   },
-  sellingPrice: {
-    type: Number,
-    required: true
-  },
+  // costPrice: {
+  //   type: Number,
+  //   required: true
+  // },
+  // sellingPrice: {
+  //   type: Number,
+  //   required: true
+  // },
   history: [
     {
       dateBought: {
         type: String
       },
-      numberBought: Number,
-      boughtFrom: String
+      quantity: Number,
+      // boughtFrom: String
     }
   ]
 });
