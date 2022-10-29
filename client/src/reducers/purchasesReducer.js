@@ -27,9 +27,9 @@ export default (state = initialState, action) => {
           purchasesArr.push({
             name: elem.name,
             numberBought: e.numberBought,
-            boughtFrom: e.boughtFrom,
+            // boughtFrom: e.boughtFrom,
             dateBought: e.dateBought,
-            costPrice: elem.costPrice
+            // costPrice: elem.costPrice
           });
         });
       });
@@ -38,7 +38,7 @@ export default (state = initialState, action) => {
         purchasesDashboard: action.payload.slice(0, 5).map(elem => [
           {
             name: elem.name,
-            costPrice: elem.costPrice,
+            // costPrice: elem.costPrice,
             lastHistory: elem.history[elem.history.length - 1]
           }
         ]),
