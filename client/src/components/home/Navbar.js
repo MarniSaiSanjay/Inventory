@@ -1,11 +1,11 @@
 import React from "react";
 import NavbarComponent from "../../StyledComponents/home/Navbar";
 import { Link } from "react-router-dom";
-import {connect} from 'react-redux'
-import {logout} from '../../actions/authAction'
+import { connect } from 'react-redux'
+import { logout } from '../../actions/authAction'
 
-const Navbar = ( props ) => {
-  const {logout} = props
+const Navbar = (props) => {
+  const { logout } = props
   const publicLInksStyle = {
     display: props.private ? "none" : "inline"
   }
@@ -25,8 +25,7 @@ const Navbar = ( props ) => {
         <div className="left">
           <li className="brand-name">
             <Link to={props.private ? "/dashboard" : "/"}>
-              Fotiá<span className="triangle-icon">▲</span>
-              {/* <img className="line-chart" src={lineChart} alt="line chart" /> */}
+              NVCTI
             </Link>
           </li>
         </div>
@@ -38,9 +37,6 @@ const Navbar = ( props ) => {
         >
           <li style={publicLInksStyle} className="login">
             <Link to="/login">Log In</Link>
-          </li>
-          <li style={publicLInksStyle} className="register">
-            <Link to="/register">Sign Up</Link>
           </li>
           <li
             style={{ display: props.public ? "none" : "inline" }}

@@ -60,8 +60,8 @@ export const FeatureClickParagraph = styled.p`
   img {
     display: none;
     ${props =>
-      props.clicked &&
-      css`
+    props.clicked &&
+    css`
         display: inline;
       `}
   }
@@ -81,7 +81,7 @@ export const FeatureOpenedContent = styled.div`
 
   ${props =>
     props.mobileOpenerContent &&
-  css`
+    css`
     & h3 {
       display: none;
     }
@@ -132,8 +132,8 @@ export const FormComponent = styled.form`
     /* The above is subject to change */
 
     ${props =>
-      props.registerLoginForm &&
-      css`
+    props.registerLoginForm &&
+    css`
         border-top: none;
         border-left: none;
         border-right: none;
@@ -164,8 +164,8 @@ export const FormComponent = styled.form`
   .form-group {
     margin: 1.2rem 0;
     ${props =>
-      props.registerLoginForm &&
-      css`
+    props.registerLoginForm &&
+    css`
         &:first-child {
           input {
             margin-top: 0;
@@ -177,8 +177,8 @@ export const FormComponent = styled.form`
   .form-group input {
     margin: 0.2rem 0;
     ${props =>
-      props.registerLoginForm &&
-      css`
+    props.registerLoginForm &&
+    css`
         margin-top: 2.3rem;
       `}
   }
