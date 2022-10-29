@@ -172,53 +172,38 @@ const MainComponent = styled.main`
     }
   }
 
-  // .help-business {
-  //   margin-bottom: 6rem;
+  .help-business {
+    margin-bottom: 6rem;
 
-  //   .get-started-wrapper {
-  //     display: flex;
-  //   }
-
-  //   .get-started {
-  //     display: inline-block;
-  //     margin: 0 auto;
-  //     margin-top: 3.5rem;
-  //     border-radius: 50px;
-  //     padding: 1rem 3rem;
-  //     background: #f86150;
-  //     color: white;
-  //     font-size: 1.2rem;
-  //     font-weight: 500;
-  //     text-decoration: none;
-  //     /* backface-visibility: hidden; */
-  //     transition: ease-in-out transform 0.5s;
-  //     animation: ${scaleAnimation} 1s ease-in-out infinite;
-
-  //     @media (max-width: 500px) {
-  //       margin-top: 1.5rem;
-  //       padding: .7rem 3rem;
-  //     }
-
-  //     &:hover {
-  //       animation: none;
-  //     }
-  //   }
-  // }
+    .get-started-wrapper {
+      display: flex;
+    }
 
     .get-started {
       display: inline-block;
       margin: 0 auto;
       margin-top: 3.5rem;
-      border-radius: 35px;
-      padding: 1rem;
+      border-radius: 50px;
+      padding: 1rem 3rem;
       background: #f86150;
       color: white;
-      font-size: 1rem;
+      font-size: 1.2rem;
       font-weight: 500;
       text-decoration: none;
       /* backface-visibility: hidden; */
       transition: ease-in-out transform 0.5s;
       animation: ${scaleAnimation} 1s ease-in-out infinite;
+
+      @media (max-width: 500px) {
+        margin-top: 1.5rem;
+        padding: .7rem 3rem;
+      }
+
+      &:hover {
+        animation: none;
+      }
+    }
+  }
 `;
 
 export default MainComponent;

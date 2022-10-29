@@ -9,7 +9,6 @@ import {
   setRegisterLoginLoading,
   clearRedirectToLogin
 } from "../../actions/authAction";
-import { useLocation } from "react-router-dom";
 
 const Login = (props) => {
   const {
@@ -20,8 +19,6 @@ const Login = (props) => {
     login,
     clearRedirectToLogin
   } = props;
-  const location= useLocation()
-  console.log(location.state);
   // refs
   const submitBtn = createRef();
   useEffect(() => {
