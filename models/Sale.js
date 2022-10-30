@@ -5,7 +5,17 @@ const SaleSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "users"
   },
-  name: {  //array of 
+  products: [{  //array of productId, quantity
+    name: {
+      type: String,
+      required: true
+    },
+    quantity: {
+      type: Number,
+      required: true
+    }
+  }],
+  issuedTo: {
     type: String,
     required: true
   },
@@ -13,15 +23,23 @@ const SaleSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  history: [
-    {
-      soldTo: String,
-      dateSold: {
-        type: String
-      },
-      numberSold: Number,
-    }
-  ]
+  isReturned: {
+    type: Boolean,
+    default: false
+  },
+  returnDate: {
+    type: String,
+    default: "Pending"
+  }
+  // history: [
+  //   {
+  //     soldTo: String,
+  //     dateSold: {
+  //       type: String
+  //     },
+  //     // numberSold: Number,
+  //   }
+  // ],
 });
 
 // Once changes has been made to matching customers soldTo, update the corresponding customer collection. itemsBought: {name: name, dateBought: dateSold, numberBought: numberSold}
