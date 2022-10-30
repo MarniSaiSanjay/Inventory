@@ -73,6 +73,13 @@ const Dashboard = props => {
     logout();
   };
 
+  console.log(
+    authLoading,
+    salesDashboard, purchasesDashboard,
+    productsDashboard,
+    suppliersDashboard,
+    customersDashboard, allProducts
+  )
 
   if (
     authLoading ||
@@ -104,7 +111,7 @@ const Dashboard = props => {
             <div className="left">
               <div className="left-fixed">
                 <div className="left-items">
-                  <Link to="/customers">
+                  {/* <Link to="/customers">
                     <div title="View all your customers" className="customers">
                       Customers
                     </div>
@@ -113,22 +120,28 @@ const Dashboard = props => {
                     <div title="View all your suppliers" className="suppliers">
                       Suppliers
                     </div>
-                  </Link>
+                  </Link> */}
                   <Link to="/products">
                     <div title="View all your products" className="products">
-                      Products
+                      Items
+                    </div>
+                  </Link>
+                  <Link to="/active-issue">
+                    <div title="View all Active Issues" className="sales">
+                      Active Issue
                     </div>
                   </Link>
                   <Link to="/sales">
-                    <div title="View all your sales" className="sales">
-                      Sales
+                    <div title="View all your Issues" className="sales">
+                      All Issues
                     </div>
                   </Link>
-                  <Link to="/purchases">
+
+                  {/* <Link to="/purchases">
                     <div title="View all your purchases" className="purchases">
                       Purchases
                     </div>
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>
@@ -199,7 +212,7 @@ const Dashboard = props => {
                     allProducts.map((elem, index) => (
                       <div key={index} className="all-stuff-content">
                         <p>
-                          <b className="all-stuff-content-bold">Name of product:</b>{" "}
+                          <b className="all-stuff-content-bold">Name of Item:</b>{" "}
                           {elem.name}
                         </p>
                         {/* <p>

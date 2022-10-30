@@ -24,6 +24,7 @@ import Purchases from "./components/purchases/Purchases";
 import Settings from "./components/settings/Settings";
 import setAuthToken from "./utils/setAuthToken";
 import NotFound from './components/pages/NotFound'
+import ActiveIssue from "./components/sales/ActiveIssue";
 
 if (localStorage.inventoryAppToken) {
   setAuthToken(localStorage.inventoryAppToken);
@@ -41,7 +42,8 @@ function App() {
           <Route exact component={Dashboard} path="/dashboard" />
           <Route exact path="/settings" component={Settings} />
           <Route exact path="/sales" component={Sales} />
-          <Route exact path="/purchases" component={Purchases} />
+          <Route exact path="/active-issue" component={ActiveIssue} />
+          {/* <Route exact path="/purchases" component={Purchases} /> */}
           <Route exact path="/products" component={Products} />
           <Route exact path="/suppliers" component={Suppliers} />
           <Route exact path="/customers" component={Customers} />

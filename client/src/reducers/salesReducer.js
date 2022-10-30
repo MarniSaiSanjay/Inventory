@@ -1,4 +1,4 @@
-import {GET_SALES, SALES_ERROR, ADD_SALES, ADD_SALES_ERROR, CLEAR_ALERT} from '../actions/types'
+import { GET_SALES, SALES_ERROR, ADD_SALES, ADD_SALES_ERROR, CLEAR_ALERT } from '../actions/types'
 
 const initialState = {
   salesDashboard: null,
@@ -11,26 +11,27 @@ const initialState = {
 const salesArr = [];
 let alertArr = [...initialState.salesAlert]
 
-export default ( state = initialState, action ) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case GET_SALES:
+      // salesArr = action.payload
       // console.log(action.payload);
-      action.payload.forEach((elem, index) => {
-        elem.history.forEach((e, i) => {
-          salesArr.push({
-            name: elem.name,
-            soldTo: e.soldTo,
-            numberSold: e.numberSold,
-            dateSold: e.dateSold
-          });
-        });
-      });
+      // action.payload.forEach((elem, index) => {
+      //   elem.history.forEach((e, i) => {
+      //     salesArr.push({
+      //       name: elem.name,
+      //       soldTo: e.soldTo,
+      //       numberSold: e.numberSold,
+      //       dateSold: e.dateSold
+      //     });
+      //   });
+      // });
       return {
         ...state,
         salesDashboard: action.payload
-          .slice(0, 5)
-          .map(elem => [elem.name, elem.history[elem.history.length - 1]]),
-        sales: salesArr
+          .slice(0, 5),
+        // .map(elem => [elem.name, elem.history[elem.history.length - 1]]),
+        sales: action.payload
       };
     case SALES_ERROR:
       // console.log(action.payload);

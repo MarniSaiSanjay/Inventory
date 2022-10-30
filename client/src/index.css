@@ -8,8 +8,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #333;
 }
+.issue-item-search:hover{
+  background-color: #333;
+}
 
-
+button:disabled{
+  background-color: #333;
+}
 @media (max-width: 420px) {
   html {
     font-size: 86%;

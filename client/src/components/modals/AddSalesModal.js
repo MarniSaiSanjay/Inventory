@@ -6,101 +6,206 @@ import { addSale } from "../../actions/salesAction";
 import callAxios from "../../utils/callAxios";
 
 const AddSalesModal = props => {
+  console.log("model")
   const { showSalesModal, toggleSalesModal, addSale } = props;
 
   const modalContent = useRef(null);
-  useEffect(() => {
-    window.addEventListener("click", e => {
-      if (modalContent.current === null) return;
-      if (showSalesModal && !modalContent.current.contains(e.target)) {
-        toggleSalesModal();
-      }
-    });
-  }, [showSalesModal, modalContent, toggleSalesModal]);
+
+
+
 
   const [sale, setSale] = useState({
-    name: "",
-    soldTo: "",
-    numberSold: ""
+    products: [],
+    issuedTo: "",
   });
-  const { name, soldTo, numberSold } = sale;
+  const { products, issuedTo } = sale;
 
   const handleChange = e => {
     setSale({ ...sale, [e.target.name]: e.target.value });
   };
 
+  const handleQuantity = (qty, itemName) => {
+    let updatedProducts = []
+
+    console.log(qty, itemName);
+    products.forEach(({ name, quantity, amountAvailable }) => {
+      if (itemName === name)
+        updatedProducts.push({ name: name, quantity: qty, amountAvailable });
+      else
+        updatedProducts.push({ name: name, quantity: quantity, amountAvailable });
+    })
+    console.log(updatedProducts)
+    setSale({ issuedTo, products: updatedProducts })
+    // setSale(pre => {
+    //   const temp = pre.products;
+    //   for (var i in temp) {
+    //     if (temp[i].name === name)
+    //       temp[i].quantity = qty
+    //   }
+    //   return temp;
+    // })
+  }
+
   const handleSubmit = e => {
     e.preventDefault();
-    addSale({
-      name,
-      history: [
-        {
-          soldTo,
-          numberSold
-        }
-      ]
-    });
-    toggleSalesModal();
+    if (products.length !== 0) {
+      addSale({
+        products,
+        issuedTo
+      });
+      console.log("submit");
+      toggleSalesModal();
+    }
   };
-  const [allProducts, setAllProducts] = useState(null)
+  const [allProducts, setAllProducts] = useState([]);
+  const [totalProducts, setTotalProducts] = useState([]);
+
 
   useEffect(() => {
     const getAllProducts = async () => {
       const res = await callAxios("GET", "/products");
       console.log(res);
       setAllProducts(res.data.products)
+      setTotalProducts(res.data.products)
 
     }
     getAllProducts();
-
-
   }, [])
+
+
+  const [search, setSearch] = useState("");
+  const searchItemsRef = useRef(null);
+  const handleSelectItems = (name, amountAvailable) => {
+    setSale(pre => {
+      let updateProducts = [...pre.products, { name, quantity: 0, amountAvailable }]
+      return { ...pre, products: updateProducts }
+    });
+
+
+    // setSelectedItems(pre => [...pre, name]);
+    setAllProducts(pre => {
+      let temp = pre.filter(item => item.name !== name);
+      console.log(temp)
+      return temp;
+    })
+    // console.log(selectedItems);
+  }
+  const handleRemoveItems = (name) => {
+    setSale(pre => {
+      let updateProducts = [...pre.products.filter(item => item.name !== name)];
+      return { ...pre, products: updateProducts };
+    })
+    setAllProducts(pre => {
+      return [...pre, ...totalProducts.filter(item => item.name === name)];
+    })
+  }
+
+  useEffect(() => {
+    console.log(allProducts, sale);
+  }, [allProducts, sale])
+
+
+  useEffect(() => {
+
+    const handleDropSearch = (e) => {
+      try {
+        if (e.target !== document.getElementById('search'))
+          searchItemsRef.current.style.display = "none";
+      } catch (error) {
+
+      }
+    }
+    window.addEventListener('click', handleDropSearch)
+
+    return () => {
+      window.removeEventListener('click', handleDropSearch)
+    }
+  }, [])
+
+
+
   return (
     <Modal>
       <div className="modalFlex">
         <div ref={modalContent} className="modalContent">
           <h2 className="modalHeader">Issue Items</h2>
           <form onSubmit={handleSubmit}>
-            <div className="modalFlexInput">
-              <p>Name: </p>{" "}
-              <input
-                className="secondChildModal"
-                name="name"
-                id="name"
-                required
-                placeholder="Name of product sold"
-                value={name}
-                onChange={handleChange}
-              />
+            <div>
+              <div className="modalFlexInput">
+                <p>Search Product: </p>{" "}
+                <input
+                  className="secondChildModal"
+                  name="search"
+                  id="search"
+                  placeholder="Search Product"
+                  value={search}
+                  onChange={(e) => { setSearch(e.target.value) }}
+                  onFocus={() => { searchItemsRef.current.style.display = "flex" }}
+                />
+              </div>
+              <div ref={searchItemsRef} id="search-items" style={{ display: "none", flexDirection: "column", position: "relative", backgroundColor: "#454343", color: "white", width: "90%" }}>
+                {
+                  allProducts.filter(item => {
+                    return item.name.toLowerCase().includes(search.toLowerCase())
+                  }).map((item, index) =>
+                    <div className="issue-item-search"
+                      onClick={() => {
+                        handleSelectItems(item.name, item.amountAvailable)
+                      }} key={`item-${index}`}>{item.name}</div>
+                  )
+                }
+              </div>
+            </div>
+            <div id="selected-items" style={{ display: "flex", flexDirection: "column" }}>
+              {
+                products.map(({ name, quantity, amountAvailable }, index) =>
+
+                  <div style={{ display: "flex" }} key={`item-${index}`}>
+                    <div className="selected-item"
+                    >{name}
+                    </div>
+                    <div className="modalFlexInput">
+                      <p>Quantity: </p>{" "}
+                      <input
+                        className="secondChildModal"
+                        type="number"
+                        min="0"
+                        max={amountAvailable}
+                        name="quantity"
+                        id="quantity"
+                        required
+                        placeholder="Enter the number of items"
+                        value={quantity}
+                        onChange={(e) => handleQuantity(e.target.value, name)}
+                      />
+                    </div>
+                    <p style={{ backgroundColor: "yellow", padding: "0.7rem" }} onClick={() => handleRemoveItems(name)}> X </p>
+                  </div>
+
+
+                )
+              }
+              {
+                Number(products.length) === 0 && <div style={{ color: "red" }}>No Products Selected</div>
+              }
+
             </div>
             <div className="modalFlexInput">
-              <p>Sold to: </p>{" "}
+              <p>Issued to: </p>{" "}
               <input
                 className="secondChildModal"
                 type="text"
-                name="soldTo"
-                id="soldTo"
+                name="issuedTo"
+                id="issuedTo"
                 required
                 placeholder="Enter the Customer you sold your product to"
-                value={soldTo}
+                value={issuedTo}
                 onChange={handleChange}
               />
             </div>
-            <div className="modalFlexInput">
-              <p>Number sold: </p>{" "}
-              <input
-                className="secondChildModal"
-                type="number"
-                min="1"
-                name="numberSold"
-                id="numberSold"
-                required
-                placeholder="Enter the number of items you sold"
-                value={numberSold}
-                onChange={handleChange}
-              />
-            </div>
-            <Button type="submit" submitButton>
+            <Button type="submit"
+              disabled={!Boolean(products.length)}
+              submitButton>
               Add Sale
             </Button>
           </form>
@@ -108,8 +213,8 @@ const AddSalesModal = props => {
             Close
           </Button>
         </div>
-      </div>
-    </Modal>
+      </div >
+    </Modal >
   );
 };
 

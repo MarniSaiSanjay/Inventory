@@ -4,7 +4,7 @@ import { loadUser } from "../../actions/authAction";
 import { getSales } from "../../actions/salesAction";
 import Spinner from "../layout/Spinner";
 import Navbar from "../home/Navbar";
-import { AllStuff } from "../../StyledComponents/utility";
+import { AllStuff, Button } from "../../StyledComponents/utility";
 import SalesComponent from "../../StyledComponents/private/Sales";
 
 const Sales = props => {
@@ -25,6 +25,7 @@ const Sales = props => {
       props.history.push("/");
     }
   }, [props.history, isAuthenticated, authLoading]);
+  console.log(sales)
   if (authLoading || sales === null) {
     return (
       <>
@@ -39,27 +40,34 @@ const Sales = props => {
       <>
         <Navbar private />
         <SalesComponent>
-          <h1 className="sales-header">All your Sales</h1>
+          <h1 className="sales-header">All Issue</h1>
           <AllStuff>
             {sales.length !== 0 ? (
               sales.map((elem, index) => (
+
                 <div className="all-stuff-content" key={index}>
+                  <div>
+                    <b className="all-stuff-content-bold">Issued To:</b>{" "}
+                    <b className="all-stuff-content-bold"> {elem.issuedTo}</b>
+                  </div>
+                  <div style={{ display: "flex" }}>
+                    <b className="all-stuff-content-bold">Issued Items:</b>{" "}
+                    <div>
+                      {elem.products.map(({ name, quantity }, index) => (
+                        <p key={index}>
+                          <b className="all-stuff-content-bold"> Name:</b>
+                          <b className="all-stuff-content-bold"> {name}</b>
+                          <b className="all-stuff-content-bold"> Quantity:</b>
+                          <b className="all-stuff-content-bold"> {quantity}</b>
+                        </p>
+                      ))}
+                    </div>
+                  </div>
                   <p>
-                    <b className="all-stuff-content-bold">Product sold:</b>{" "}
-                    {elem.name}
+                    <b className="all-stuff-content-bold">Return Status:</b>
+                    <b className="all-stuff-content-bold">{elem.isReturned ? "Returned" : "Pending"}</b>
                   </p>
-                  <p>
-                    <b className="all-stuff-content-bold">Sold to:</b>{" "}
-                    {elem.soldTo}
-                  </p>
-                  <p>
-                    <b className="all-stuff-content-bold">Amount sold:</b>{" "}
-                    {elem.numberSold}
-                  </p>
-                  <p>
-                    <b className="all-stuff-content-bold">Date sold:</b>{" "}
-                    {elem.dateSold}
-                  </p>
+                  {!elem.isReturned && <Button style={{ backgroundColor: "#3672a4", marginBottom: "1rem" }}>Return</Button>}
                 </div>
               ))
             ) : (

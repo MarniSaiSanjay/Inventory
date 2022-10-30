@@ -5,6 +5,7 @@ import uuid from "uuid";
 export const getSales = () => async dispatch => {
   try {
     const res = await callAxios("GET", "/sales");
+    console.log(res.data.sales);
     dispatch({
       type: GET_SALES,
       payload: res.data.sales
@@ -16,6 +17,7 @@ export const getSales = () => async dispatch => {
     });
   }
 };
+
 
 export const addSale = data => async dispatch => {
   const id = uuid.v4();
@@ -40,15 +42,15 @@ export const addSale = data => async dispatch => {
         alert:
           err.response.status === 400
             ? {
-                msg: err.response.data.msg,
-                type: "failure",
-                id
-              }
+              msg: err.response.data.msg,
+              type: "failure",
+              id
+            }
             : {
-                msg: "Something went wrong. Please refresh the page",
-                type: "failure",
-                id
-              }
+              msg: "Something went wrong. Please refresh the page",
+              type: "failure",
+              id
+            }
       }
     });
   } finally {
