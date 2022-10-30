@@ -144,12 +144,22 @@ router.post('/:saleId/close', authenticator, async (req, res) => {
   const currSale = await Sale.findById(saleId);
 
   if (currSale.isReturned === true) {
-    return res.status(400).send("Issue already closed");
+    return res.status(400).send("Issued items already received");
+  }
+  
+  const {products} = currSale;
+
+  for (let item of products) {
+    const { name, quantity } = item;
+    let findProduct = await Product.findOne({ name });
+    findProduct.amountAvailable += quantity;
+    await findProduct.save();
   }
   
   currSale.isReturned = true;
   currSale.returnDate = new Date().toDateString();
   await currSale.save();
+
   res.json({ currSale, msg: "Checked In!" });
 })
 
