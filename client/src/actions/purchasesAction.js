@@ -11,6 +11,7 @@ import uuid from "uuid";
 export const getPurchases = () => async dispatch => {
   try {
     const res = await callAxios("GET", "/purchases");
+    console.log(res.data.purchases)
     dispatch({
       type: GET_PURCHASES,
       payload: res.data.purchases
@@ -46,23 +47,23 @@ export const addPurchase = data => async dispatch => {
         alert:
           error.response.status === 400
             ? {
-                msg: error.response.data.msg,
-                id,
-                type: "failure"
-              }
+              msg: error.response.data.msg,
+              id,
+              type: "failure"
+            }
             : {
-                msg: "Something went wrong. Please refresh the page",
-                id,
-                type: "failure"
-              }
+              msg: "Something went wrong. Please refresh the page",
+              id,
+              type: "failure"
+            }
       }
     });
   } finally {
-     setTimeout(() => {
-       dispatch({
-         type: CLEAR_ALERT,
-         payload: id
-       });
-     }, 3000);
+    setTimeout(() => {
+      dispatch({
+        type: CLEAR_ALERT,
+        payload: id
+      });
+    }, 3000);
   }
 };

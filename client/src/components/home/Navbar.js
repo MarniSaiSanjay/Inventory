@@ -20,7 +20,6 @@ const Navbar = (props) => {
   const publicLInksStyle = {
     display: props.private ? "none" : "inline"
   }
-  console.log(user);
 
   const handleLogout = () => {
     logout();

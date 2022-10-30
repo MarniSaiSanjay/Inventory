@@ -46,18 +46,18 @@ const Purchases = props => {
                     <b className="recent-content-bold">Amount bought:</b>{" "}
                     {elem.numberBought}
                   </p>
-                  <p>
+                  {/* <p>
                     <b className="recent-content-bold">Bought from:</b>{" "}
                     {elem.boughtFrom}
-                  </p>
+                  </p> */}
                   <p>
                     <b className="recent-content-bold">Date bought:</b>{" "}
                     {elem.dateBought}
                   </p>
-                  <p>
+                  {/* <p>
                     <b className="recent-content-bold">Cost price:</b> #
                     {elem.costPrice}
-                  </p>
+                  </p> */}
                 </div>
               ))
             ) : (

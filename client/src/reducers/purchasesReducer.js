@@ -14,25 +14,30 @@ const initialState = {
   purchasesAlert: []
 };
 
-const purchasesArr = [];
+let purchasesArr = [];
 let alertArr = [...initialState.purchasesAlert];
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_PURCHASES:
+      purchasesArr = []
+      console.log(action.payload)
       action.payload.forEach((elem, index) => {
         // console.log("Elem", elem)
         // purchasesArr = elem.history;
         elem.history.forEach((e, i) => {
           purchasesArr.push({
             name: elem.name,
-            numberBought: e.numberBought,
+            description: e.description,
             // boughtFrom: e.boughtFrom,
             dateBought: e.dateBought,
+            numberBought: e.quantity
             // costPrice: elem.costPrice
           });
         });
+
       });
+      console.log(purchasesArr)
       return {
         ...state,
         purchasesDashboard: action.payload.slice(0, 5).map(elem => [

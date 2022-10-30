@@ -43,7 +43,7 @@ function App() {
           <Route exact path="/settings" component={Settings} />
           <Route exact path="/sales" component={Sales} />
           <Route exact path="/active-issue" component={ActiveIssue} />
-          {/* <Route exact path="/purchases" component={Purchases} /> */}
+          <Route exact path="/purchases" component={Purchases} />
           <Route exact path="/products" component={Products} />
           <Route exact path="/suppliers" component={Suppliers} />
           <Route exact path="/customers" component={Customers} />

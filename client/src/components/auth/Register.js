@@ -89,7 +89,6 @@ const Register = (props) => {
       ...user,
       [e.target.name]: e.target.value
     };
-    console.log(updatedUser);
     setUser(updatedUser);
     handleErrorMessage(e)
   };

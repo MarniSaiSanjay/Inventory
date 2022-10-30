@@ -6,7 +6,6 @@ import { addSale } from "../../actions/salesAction";
 import callAxios from "../../utils/callAxios";
 
 const AddSalesModal = props => {
-  console.log("model")
   const { showSalesModal, toggleSalesModal, addSale } = props;
 
   const modalContent = useRef(null);
@@ -27,14 +26,12 @@ const AddSalesModal = props => {
   const handleQuantity = (qty, itemName) => {
     let updatedProducts = []
 
-    console.log(qty, itemName);
     products.forEach(({ name, quantity, amountAvailable }) => {
       if (itemName === name)
         updatedProducts.push({ name: name, quantity: qty, amountAvailable });
       else
         updatedProducts.push({ name: name, quantity: quantity, amountAvailable });
     })
-    console.log(updatedProducts)
     setSale({ issuedTo, products: updatedProducts })
     // setSale(pre => {
     //   const temp = pre.products;
@@ -53,7 +50,6 @@ const AddSalesModal = props => {
         products,
         issuedTo
       });
-      console.log("submit");
       toggleSalesModal();
     }
   };
@@ -64,7 +60,6 @@ const AddSalesModal = props => {
   useEffect(() => {
     const getAllProducts = async () => {
       const res = await callAxios("GET", "/products");
-      console.log(res);
       setAllProducts(res.data.products)
       setTotalProducts(res.data.products)
 
@@ -82,13 +77,10 @@ const AddSalesModal = props => {
     });
 
 
-    // setSelectedItems(pre => [...pre, name]);
     setAllProducts(pre => {
       let temp = pre.filter(item => item.name !== name);
-      console.log(temp)
       return temp;
     })
-    // console.log(selectedItems);
   }
   const handleRemoveItems = (name) => {
     setSale(pre => {

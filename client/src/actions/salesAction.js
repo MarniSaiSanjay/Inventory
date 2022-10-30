@@ -5,7 +5,6 @@ import uuid from "uuid";
 export const getSales = () => async dispatch => {
   try {
     const res = await callAxios("GET", "/sales");
-    console.log(res.data.sales);
     dispatch({
       type: GET_SALES,
       payload: res.data.sales

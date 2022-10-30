@@ -6,6 +6,8 @@ import Spinner from "../layout/Spinner";
 import Navbar from "../home/Navbar";
 import { AllStuff, Button } from "../../StyledComponents/utility";
 import SalesComponent from "../../StyledComponents/private/Sales";
+import callAxios from "../../utils/callAxios";
+
 const Sales = props => {
     const {
         loadUser,
@@ -24,8 +26,17 @@ const Sales = props => {
             props.history.push("/");
         }
     }, [props.history, isAuthenticated, authLoading]);
-    console.log(sales)
 
+    const handleRecieve = async (id) => {
+        try {
+            const res = await callAxios("PUT", `sales/${id}/close`);
+
+        } catch (error) {
+
+        }
+
+
+    }
     if (authLoading || sales === null) {
         return (
             <>
@@ -68,7 +79,8 @@ const Sales = props => {
                                                 <b className="all-stuff-content-bold">Return Status:</b>
                                                 <b className="all-stuff-content-bold">{elem.isReturned ? "Returned" : "Pending"}</b>
                                             </p>
-                                            {!elem.isReturned && <Button style={{ backgroundColor: "#3672a4", marginBottom: "1rem" }}>Return</Button>}
+                                            {!elem.isReturned && <Button style={{ backgroundColor: "#3672a4", marginBottom: "1rem" }} onClick={() => handleRecieve(elem._id)}>Recieve</Button>}
+
                                         </div>)
                             })
                         ) : (

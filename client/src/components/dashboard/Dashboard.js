@@ -55,9 +55,7 @@ const Dashboard = props => {
   useEffect(() => {
     const getAllProducts = async () => {
       const res = await callAxios("GET", "/products");
-      console.log(res);
       setAllProducts(res.data.products)
-
     }
     getAllProducts();
   }, [])
@@ -73,13 +71,6 @@ const Dashboard = props => {
     logout();
   };
 
-  console.log(
-    authLoading,
-    salesDashboard, purchasesDashboard,
-    productsDashboard,
-    suppliersDashboard,
-    customersDashboard, allProducts
-  )
 
   if (
     authLoading ||
@@ -137,11 +128,11 @@ const Dashboard = props => {
                     </div>
                   </Link>
 
-                  {/* <Link to="/purchases">
+                  <Link to="/purchases">
                     <div title="View all your purchases" className="purchases">
                       Purchases
                     </div>
-                  </Link> */}
+                  </Link>
                 </div>
               </div>
             </div>

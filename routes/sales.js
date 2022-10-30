@@ -88,15 +88,15 @@ router.post(
       let newSale = new Sale({
         products,
         issuedTo,
-          user: req.user.id
-        });
-      
+        user: req.user.id
+      });
+
       const sale = await newSale.save();
 
       // after making sale, make necessary changes to product and customer
       for (let item of products) {
         const { name, quantity } = item;
-        let findProduct = await Product.findOne({name});
+        let findProduct = await Product.findOne({ name });
         findProduct.amountAvailable -= quantity;
         await findProduct.save();
       }
@@ -139,15 +139,15 @@ router.post(
   }
 );
 
-router.post('/:saleId/close', authenticator, async (req, res) => {
+router.put('/:saleId/close', authenticator, async (req, res) => {
   const { saleId } = req.params;
   const currSale = await Sale.findById(saleId);
 
   if (currSale.isReturned === true) {
     return res.status(400).send("Issued items already received");
   }
-  
-  const {products} = currSale;
+
+  const { products } = currSale;
 
   for (let item of products) {
     const { name, quantity } = item;
@@ -155,7 +155,7 @@ router.post('/:saleId/close', authenticator, async (req, res) => {
     findProduct.amountAvailable += quantity;
     await findProduct.save();
   }
-  
+
   currSale.isReturned = true;
   currSale.returnDate = new Date().toDateString();
   await currSale.save();

@@ -38,7 +38,6 @@ const Login = (props) => {
       props.history.push("/dashboard");
     }
   }, [isAuthenticated, alert, props.history]);
-  console.log(location.state)
   const [user, setUser] = useState({
     usernameOrEmail: "",
     password: "",
