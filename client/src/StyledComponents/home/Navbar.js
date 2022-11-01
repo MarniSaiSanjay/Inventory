@@ -7,12 +7,14 @@ const NavbarComponent = styled.nav`
   padding: 0.45rem;
   color: white;
   box-shadow: 0px 6px 5px 0px rgba(128, 128, 128, 1);
+  z-index: 999;
+  top: 0;
 
-  @media screen and (max-width: 360px) {
-    & ~ div {
-      padding-top: 6rem;
-    }
-  }
+  // @media screen and (max-width: 360px) {
+  //   & ~ div {
+  //     padding-top: 6rem;
+  //   }
+  // }
 
   ul {
     list-style: none;
@@ -40,6 +42,14 @@ const NavbarComponent = styled.nav`
       }
 
       .brand-name {
+        display: flex;
+        align-items: center;
+        gap: 2em;
+
+        @media screen and (max-width: 360px) {
+          flex-direction: column;
+        }
+        
         a {
           font-size: 2.2rem;
           font-weight: 500;
@@ -65,6 +75,7 @@ const NavbarComponent = styled.nav`
     .right {
       display: flex;
       flex-basis: 20%;
+      gap: 0.5em;
       justify-content: space-around;
 
       @media screen and (max-width: 1120px) {
@@ -84,30 +95,41 @@ const NavbarComponent = styled.nav`
       .about,
       .login,
       .register {
-        font-size: 1.1rem;
+        font-size: 1rem;
         transition: ease 0.4s;
+        border-radius: 10px;
+        padding: 0.7rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
 
-        ${props =>
+        ${(props) =>
           props.private &&
           css`
             display: none;
           `}
         &:hover {
-          transform: scale(1.045);
+          background-color: #fff;
+          color: #000;
         }
       }
 
       .logout,
       .settings {
-        font-size: 1.1rem;
+        font-size: 1rem;
         transition: ease 0.4s;
-        font-weight: bold;
+        border-radius: 10px;
+        padding: 0.7rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
 
         &:hover {
-          transform: scale(1.045);
+          background-color: #fff;
+          color: #000;
         }
 
-        ${props =>
+        ${(props) =>
           props.public &&
           css`
             display: none;

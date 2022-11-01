@@ -56,30 +56,59 @@ const Sales = props => {
           <AllStuff>
             {sales.length !== 0 ? (
               sales.map((elem, index) => (
-
                 <div className="all-stuff-content" key={index}>
                   <div>
                     <b className="all-stuff-content-bold">Issued To:</b>{" "}
                     <b className="all-stuff-content-bold"> {elem.issuedTo}</b>
                   </div>
-                  <div style={{ display: "flex" }}>
-                    <b className="all-stuff-content-bold">Issued Items:</b>{" "}
+                  <div className="info-table">
+                    <div className="all-stuff-content-bold">Issued Items:</div>
                     <div>
-                      {elem.products.map(({ name, quantity }, index) => (
-                        <p key={index}>
-                          <b className="all-stuff-content-bold"> Name:</b>
-                          <b className="all-stuff-content-bold"> {name}</b>
-                          <b className="all-stuff-content-bold"> Quantity:</b>
-                          <b className="all-stuff-content-bold"> {quantity}</b>
-                        </p>
-                      ))}
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {elem.products.map(({ name, quantity }, index) => (
+                            // <p key={index}>
+                            //   <div className="all-stuff-content-divold"> Name:</div>
+                            //   <div className="all-stuff-content-divold"> {name}</div>
+                            //   <div className="all-stuff-content-divold">
+                            //     Quantity:
+                            //   </div>
+                            //   <div className="all-stuff-content-divold">
+                            //     {quantity}
+                            //   </div>
+                            // </p>
+                            <tr key={index}>
+                              <td>{name}</td>
+                              <td>{quantity}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                   <p>
                     <b className="all-stuff-content-bold">Return Status:</b>
-                    <b className="all-stuff-content-bold">{elem.isReturned ? "Recieved" : "Pending"}</b>
+                    <b className="all-stuff-content-bold">
+                      {elem.isReturned ? "Recieved" : "Pending"}
+                    </b>
                   </p>
-                  {!elem.isReturned && <Button style={{ backgroundColor: "#3672a4", marginBottom: "1rem" }} onClick={() => handleRecieve(elem._id)}>Recieve</Button>}
+                  {!elem.isReturned && (
+                    <Button
+                      style={{
+                        backgroundColor: "#3672a4",
+                        marginBottom: "1rem",
+                      }}
+                      onClick={() => handleRecieve(elem._id)}
+                    >
+                      Recieve
+                    </Button>
+                  )}
                 </div>
               ))
             ) : (

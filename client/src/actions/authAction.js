@@ -97,17 +97,17 @@ export const register = (data) => async dispatch => {
       type: REGISTER_FAIL,
       payload: err.response,
       alert:
-        err.response.status === 400
-          ? {
-            msg: err.response.data.msg,
-            type: "failure",
-            id
-          }
-          : {
-            msg: "Something went wrong. please refresh the page.",
-            type: "failure",
-            id
-          }
+      err.response.status === 400
+      ? {
+        msg: err.response.data.msg,
+        type: "failure",
+        id
+      }
+      : {
+        msg: "Something went wrong. please refresh the page.",
+        type: "failure",
+        id
+      }
     });
   } finally {
     setTimeout(() => {

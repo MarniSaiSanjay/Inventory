@@ -13,7 +13,7 @@ export const HeaderOne = styled.h1`
     font-size: 2rem !important;
   }
 
-  ${props =>
+  ${(props) =>
     props.home &&
     css`
       /* margin-top: 10rem !important; */
@@ -28,6 +28,12 @@ export const HeaderOne = styled.h1`
         margin-bottom: 0.5rem;
       }
     `}
+
+  img {
+    height: 4em;
+    aspect-ratio: 1;
+    object-fit: contain;
+  }
 `;
 
 export const HeaderTwo = styled.h2`
@@ -39,7 +45,7 @@ export const HeaderTwo = styled.h2`
     margin-bottom: 0.5rem;
   }
 
-  ${props =>
+  ${(props) =>
     props.home &&
     css`
       text-align: center;
@@ -52,16 +58,16 @@ export const HeaderTwo = styled.h2`
 
 // Features Click Paragraph(Home Page)
 export const FeatureClickParagraph = styled.p`
-  ${props =>
+  ${(props) =>
     props.clicked &&
     css`
       color: #2b2e94;
     `}
   img {
     display: none;
-    ${props =>
-    props.clicked &&
-    css`
+    ${(props) =>
+      props.clicked &&
+      css`
         display: inline;
       `}
   }
@@ -72,23 +78,23 @@ export const FeatureOpenedContent = styled.div`
   display: none;
   transition: ease all 1s;
   opacity: 0;
-  ${props =>
+  ${(props) =>
     props.showContent &&
     css`
       display: block;
       opacity: 1;
     `}
 
-  ${props =>
+  ${(props) =>
     props.mobileOpenerContent &&
     css`
-    & h3 {
-      display: none;
-    }
-    & p {
-      font-size: 1rem;
-      font-weight: normal;
-    }
+      & h3 {
+        display: none;
+      }
+      & p {
+        font-size: 1rem;
+        font-weight: normal;
+      }
       @media (min-width: 751px) {
         display: none;
       }
@@ -131,9 +137,9 @@ export const FormComponent = styled.form`
     margin-right: auto;
     /* The above is subject to change */
 
-    ${props =>
-    props.registerLoginForm &&
-    css`
+    ${(props) =>
+      props.registerLoginForm &&
+      css`
         border-top: none;
         border-left: none;
         border-right: none;
@@ -163,9 +169,9 @@ export const FormComponent = styled.form`
 
   .form-group {
     margin: 1.2rem 0;
-    ${props =>
-    props.registerLoginForm &&
-    css`
+    ${(props) =>
+      props.registerLoginForm &&
+      css`
         &:first-child {
           input {
             margin-top: 0;
@@ -176,9 +182,9 @@ export const FormComponent = styled.form`
 
   .form-group input {
     margin: 0.2rem 0;
-    ${props =>
-    props.registerLoginForm &&
-    css`
+    ${(props) =>
+      props.registerLoginForm &&
+      css`
         margin-top: 2.3rem;
       `}
   }
@@ -206,9 +212,10 @@ export const FormComponent = styled.form`
 
 // All stuff(eg, all suppliers, all customers)
 export const AllStuff = styled.div`
-  box-shadow: 2px 8px 7px rgba(0, 0, 0, 0.3), 1px -13px 4px -8px #eee;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   border-radius: 5px;
   margin: 3rem;
+  border: 1px solid #ccc;
   padding: 1.5rem;
   .all-stuff-headers {
     text-align: center;
@@ -217,6 +224,18 @@ export const AllStuff = styled.div`
 
   @media screen and (max-width: 500px) {
     margin: 0 0 3rem 0;
+  }
+
+  .info-table {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    @media screen and (max-width: 600px) {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   .all-stuff-content:not(:last-child) {
@@ -238,7 +257,7 @@ export const Modal = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 500;
+  z-index: 1000;
   height: 100%;
   width: 100%;
   /* opacity: .1; */
@@ -252,13 +271,19 @@ export const Modal = styled.div`
     text-align: center;
   }
 
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+  }
+
   & .modalFlex {
     display: flex;
     justify-content: center;
     width: 100%;
-    /* position: relative; */
     align-items: center;
-    /* height: 60%; */
     margin-top: 10%;
     padding-bottom: 2rem;
   }
@@ -275,7 +300,6 @@ export const Modal = styled.div`
     @media (max-width: 650px) {
       max-width: 300px;
       padding: 0 2rem 1rem 2rem;
-      width: 75%;
     }
 
     @media screen and (max-width: 370px) {
@@ -288,28 +312,30 @@ export const Modal = styled.div`
   & .modalContent .modalFlexInput {
     display: flex;
     justify-content: space-between;
-    /* align-content: center; */
     align-items: center;
+    width: 100%;
+    gap: 10px;
+
+    @media (max-width: 780px) {
+      flex-direction: column;
+    }
 
     .secondChildModal {
-      flex: 0 1 60%;
+      // flex: 0 1 60%;
       padding: 0.5rem 1rem;
       border-radius: 4px;
       border: 1px solid #a5a5a5;
       font-family: inherit;
-
-      @media screen and (max-width: 370px) {
-        width: 90%;
-      }
+      width: 100%;
     }
 
-    select.secondChildModal {
-      flex-basis: calc(60% + 2rem);
+    // select.secondChildModal {
+    //   flex-basis: calc(60% + 2rem);
 
-      @media screen and (max-width: 370px) {
-        width: calc(90% + 2rem);
-      }
-    }
+    //   @media screen and (max-width: 370px) {
+    //     width: calc(90% + 2rem);
+    //   }
+    // }
 
     & label:first-of-type {
       margin-right: 0.4rem;
@@ -323,14 +349,6 @@ export const Modal = styled.div`
       flex-direction: column;
       align-items: flex-start;
     }
-  }
-  & form:after {
-    left: 0;
-    position: absolute;
-    content: "";
-    height: 1px;
-    width: 100%;
-    background: #b2b2b2f5;
   }
 `;
 
@@ -350,7 +368,7 @@ export const Button = styled.button`
   margin-left: auto;
   margin-right: auto;
 
-  ${props =>
+  ${(props) =>
     props.submitButton &&
     css`
       background: #0069d9;
@@ -364,7 +382,7 @@ export const Button = styled.button`
       }
     `}
 
-  ${props =>
+  ${(props) =>
     props.closeButton &&
     css`
       background: #dc3545;

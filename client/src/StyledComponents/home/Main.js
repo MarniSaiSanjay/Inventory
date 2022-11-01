@@ -1,4 +1,4 @@
-import styled, { css, keyframes } from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const scaleAnimation = keyframes`
     50% {
@@ -26,25 +26,22 @@ const MainComponent = styled.main`
   }
 
   max-width: 1100px;
-  margin: auto;
   padding: 0 2rem;
-
+  margin: auto;
+  
   @media (max-width: 500px) {
+    margin-top: 4em;
     padding: 0 1rem;
   }
 
   .first-section {
     padding-top: 4rem;
-    .triangle-icon {
-      /* margin-top: -4rem; */
-      font-size: 10rem;
-      margin: 0 auto;
-      text-align: center;
-      color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
       @media (max-width: 500px) {
         font-size: 7rem;
-        margin-top: 1rem;
       }
     }
 
@@ -171,39 +168,6 @@ const MainComponent = styled.main`
       }
     }
   }
-
-  // .help-business {
-  //   margin-bottom: 6rem;
-
-  //   .get-started-wrapper {
-  //     display: flex;
-  //   }
-
-  //   .get-started {
-  //     display: inline-block;
-  //     margin: 0 auto;
-  //     margin-top: 3.5rem;
-  //     border-radius: 50px;
-  //     padding: 1rem 3rem;
-  //     background: #f86150;
-  //     color: white;
-  //     font-size: 1.2rem;
-  //     font-weight: 500;
-  //     text-decoration: none;
-  //     /* backface-visibility: hidden; */
-  //     transition: ease-in-out transform 0.5s;
-  //     animation: ${scaleAnimation} 1s ease-in-out infinite;
-
-  //     @media (max-width: 500px) {
-  //       margin-top: 1.5rem;
-  //       padding: .7rem 3rem;
-  //     }
-
-  //     &:hover {
-  //       animation: none;
-  //     }
-  //   }
-  // }
 
     .get-started {
       display: inline-block;

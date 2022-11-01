@@ -4,11 +4,18 @@ import { loadUser } from "../../actions/authAction";
 import { getProducts } from "../../actions/productsAction";
 import Spinner from "../layout/Spinner";
 import Navbar from "../home/Navbar";
-import { AllStuff } from "../../StyledComponents/utility"
+import { AllStuff } from "../../StyledComponents/utility";
 import ProductsComponent from "../../StyledComponents/private/Products";
 
-const Products = props => {
-  const { loadUser, getProducts, products, user, isAuthenticated, authLoading } = props;
+const Products = (props) => {
+  const {
+    loadUser,
+    getProducts,
+    products,
+    user,
+    isAuthenticated,
+    authLoading,
+  } = props;
   useEffect(() => {
     loadUser();
     getProducts();
@@ -51,8 +58,8 @@ const Products = props => {
                     {elem.amountAvailable}
                   </p>
                   <p>
-                    <b className="all-stuff-content-bold">Description:</b>{" "}
-                    #{elem.description}
+                    <b className="all-stuff-content-bold">Description:</b> #
+                    {elem.description}
                   </p>
                 </div>
               ))
@@ -69,14 +76,15 @@ const Products = props => {
 };
 
 const mapDispatchToProps = {
-  loadUser, getProducts
+  loadUser,
+  getProducts,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.auth.user,
   authLoading: state.auth.authLoading,
   isAuthenticated: state.auth.isAuthenticated,
-  products: state.products.products
+  products: state.products.products,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);

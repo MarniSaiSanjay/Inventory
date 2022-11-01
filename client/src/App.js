@@ -25,6 +25,7 @@ import Settings from "./components/settings/Settings";
 import setAuthToken from "./utils/setAuthToken";
 import NotFound from './components/pages/NotFound'
 import ActiveIssue from "./components/sales/ActiveIssue";
+import Footer from "./components/home/Footer";
 
 if (localStorage.inventoryAppToken) {
   setAuthToken(localStorage.inventoryAppToken);
@@ -52,6 +53,7 @@ function App() {
         </Switch>
         <Modals />
       </Router>
+      <Footer/>
     </Provider>
   );
 }

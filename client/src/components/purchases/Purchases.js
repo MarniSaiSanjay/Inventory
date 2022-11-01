@@ -1,15 +1,23 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { loadUser } from "../../actions/authAction";
-import { getPurchases } from "../../actions/purchasesAction"
+import { getPurchases } from "../../actions/purchasesAction";
 import Spinner from "../layout/Spinner";
 import Navbar from "../home/Navbar";
-import { AllStuff } from "../../StyledComponents/utility"
+import { AllStuff } from "../../StyledComponents/utility";
 import PurchasesComponent from "../../StyledComponents/private/Purchases";
 
-const Purchases = props => {
-  const { loadUser, user, purchases, getPurchases, isAuthenticated, authLoading, products } = props;
-  console.log(purchases)
+const Purchases = (props) => {
+  const {
+    loadUser,
+    user,
+    purchases,
+    getPurchases,
+    isAuthenticated,
+    authLoading,
+    products,
+  } = props;
+  console.log(purchases);
   useEffect(() => {
     loadUser();
     getPurchases();
@@ -36,30 +44,24 @@ const Purchases = props => {
           <h1 className="purchases-header">All your Purchases</h1>
           <AllStuff>
             {purchases.length !== 0 ? (
-              purchases.map((elem, i) => (
-                <div className="all-stuff-content" key={i}>
-                  <p>
-                    <b className="recent-content-bold">Product purchased:</b>{" "}
-                    {elem.name}
-                  </p>
-                  <p>
-                    <b className="recent-content-bold">Amount bought:</b>{" "}
-                    {elem.numberBought}
-                  </p>
-                  {/* <p>
-                    <b className="recent-content-bold">Bought from:</b>{" "}
-                    {elem.boughtFrom}
-                  </p> */}
-                  <p>
-                    <b className="recent-content-bold">Date bought:</b>{" "}
-                    {elem.dateBought}
-                  </p>
-                  {/* <p>
-                    <b className="recent-content-bold">Cost price:</b> #
-                    {elem.costPrice}
-                  </p> */}
-                </div>
-              ))
+              <table style={{ width: "100%" }}>
+                <thead>
+                  <tr>
+                    <th>Product purchased</th>
+                    <th>Amount bought</th>
+                    <th>Date bought</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {purchases.map(({ name, numberBought, dateBought }, i) => (
+                    <tr key={i}>
+                      <td>{name}</td>
+                      <td>{numberBought}</td>
+                      <td>{dateBought}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             ) : (
               <h4 className="all-stuff-headers">
                 You don't have any purchases yet
@@ -73,14 +75,15 @@ const Purchases = props => {
 };
 
 const mapDispatchToProps = {
-  loadUser, getPurchases
+  loadUser,
+  getPurchases,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.auth.user,
   authLoading: state.auth.authLoading,
   isAuthenticated: state.auth.isAuthenticated,
-  purchases: state.purchases.purchases
+  purchases: state.purchases.purchases,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Purchases);

@@ -1,8 +1,8 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 const DashboardComponent = styled.div`
-  padding-top: 3.8rem;
-  z-index: -3;
+  padding-top: 4em;
+  // z-index: -3;
 
   .dashboard-container {
     display: grid;
@@ -14,18 +14,18 @@ const DashboardComponent = styled.div`
       flex-direction: column;
     }
     .left {
-      background: #323237;
-      color: white;
-      padding-top: 1rem;
+      background: #fff;
+      color: #000;
+      border-right: 1px solid #000;
+      // padding-top: 1rem;
 
       .left-fixed {
-        position: fixed;
-        width: 25%;
+        // position: fixed;
+        width: 100%;
         /* the above is subject to change depending on the width of the actual content which is a grid item */
 
         @media screen and (max-width: 750px) {
           width: 100%;
-          background: #454343;
 
           .left-items {
             display: flex;
@@ -44,19 +44,26 @@ const DashboardComponent = styled.div`
         .sales,
         .purchases,
         .suppliers {
-          margin-bottom: 3rem;
+          // margin-bottom: 3rem;
           padding: 1rem;
-          background: #454343;
-          color: white;
+          background: #fff;
+          color: #000;
+          border-bottom: 1px solid #000;
+          transition: all 0.3s;
           text-decoration: none;
           cursor: pointer;
+          font-weight: bold;
 
-          @media screen and (max-width: 750px) {
-            margin-bottom: 0.7rem;
-            padding: 0.5rem;
-            text-align: center;
-            background: none;
+          &:hover {
+            background: #323237;
+            color: #fff;
           }
+          // @media screen and (max-width: 750px) {
+          //   margin-bottom: 0.7rem;
+          //   padding: 0.5rem;
+          //   text-align: center;
+          //   background: none;
+          // }
         }
       }
 

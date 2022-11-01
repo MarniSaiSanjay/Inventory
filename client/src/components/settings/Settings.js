@@ -40,13 +40,12 @@ const Settings = props => {
         <SettingsComponent>
           <h1 className="settings-header">Settings</h1>
 
-          <h4
-            style={{ textAlign: "center", cursor: "pointer" }}
+          <button
             onClick={deleteAccount}
-            className="delete-account"
+            className="get-started"
           >
             Permanently delete your account
-          </h4>
+          </button>
         </SettingsComponent>
       </>
     );
