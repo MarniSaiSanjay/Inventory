@@ -7,18 +7,26 @@ import { connect } from "react-redux";
 import {
   setRegisterLoginLoading,
   register,
-  registerLoginLoading
+  registerLoginLoading,
 } from "../../actions/authAction";
+import { toast } from "react-toastify";
+import { BsEyeSlashFill, BsEyeFill } from "react-icons/bs";
 
 const Register = (props) => {
-  const { setRegisterLoginLoading, redirectToLogin, alert, register, registerLoginLoading } = props
+  const {
+    setRegisterLoginLoading,
+    redirectToLogin,
+    alert,
+    register,
+    registerLoginLoading,
+  } = props;
   // Refs
   const nameRef = createRef();
   const emailRef = createRef();
   const usernameRef = createRef();
   const passwordRef = createRef();
   const confirmPasswordRef = createRef();
-  const passwordMainRef = createRef()
+  const passwordMainRef = createRef();
   const submitBtn = createRef();
   const adminSecretRef = createRef();
 
@@ -34,9 +42,19 @@ const Register = (props) => {
 
   useEffect(() => {
     if (redirectToLogin && alert.length === 0) {
-      props.history.push("/login")
+      props.history.push("/login");
     }
-  }, [redirectToLogin, alert, props.history])
+  }, [redirectToLogin, alert, props.history]);
+  
+  const [hidden, sethidden] = useState(true);
+  const handleShowPassword = () => {
+    sethidden(!hidden);
+  };
+
+  const [hidden2, sethidden2] = useState(true);
+  const handleShowConfirmPassword = () => {
+    sethidden2(!hidden2);
+  };
 
   const [user, setUser] = useState({
     name: "",
@@ -45,15 +63,16 @@ const Register = (props) => {
     password: "",
     confirmPassword: "",
     lab: "robotic-technology",
-    adminSecret: ""
+    adminSecret: "",
   });
 
-  const { name, email, username, password, confirmPassword, lab, adminSecret } = user;
+  const { name, email, username, password, confirmPassword, lab, adminSecret } =
+    user;
 
   const [disableSubmit, setDisableSubmit] = useState(true);
 
-  const handleSubmit = e => {
-    setRegisterLoginLoading()
+  const handleSubmit = (e) => {
+    setRegisterLoginLoading();
     e.preventDefault();
     register({
       name,
@@ -62,9 +81,9 @@ const Register = (props) => {
       password,
       confirmPassword,
       lab,
-      adminSecret
+      adminSecret,
     });
-  }
+  };
 
   const emailRegex = /^([a-z0-9\.\-_]+)@([a-z0-9\.\-_]+)\.([a-z]{2,6})$/i;
   const whiteSpaceRegex = /\S/;
@@ -84,13 +103,13 @@ const Register = (props) => {
     }
   }, [disableSubmit, user]);
 
-  const onChange = e => {
+  const onChange = (e) => {
     const updatedUser = {
       ...user,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     };
     setUser(updatedUser);
-    handleErrorMessage(e)
+    handleErrorMessage(e);
   };
 
   const disabledBtn = () => {
@@ -100,19 +119,22 @@ const Register = (props) => {
         boxShadow: "none",
         backgroundColor: "rgba(0, 0, 0, 0.12)",
         cursor: "default",
-        pointerEvents: "none"
+        pointerEvents: "none",
       };
   };
 
   const errorMessageStyle = {
     color: "red",
-    display: "none"
+    display: "none",
   };
 
-  const handleErrorMessage = e => {
+  const handleErrorMessage = (e) => {
     switch (e.target.name) {
       case "name":
-        if (!whiteSpaceRegex.test(e.target.value) || e.target.value.length < 5) {
+        if (
+          !whiteSpaceRegex.test(e.target.value) ||
+          e.target.value.length < 5
+        ) {
           nameRef.current.style.display = "block";
         } else {
           nameRef.current.style.display = "none";
@@ -126,7 +148,10 @@ const Register = (props) => {
         }
         break;
       case "username":
-        if (!whiteSpaceRegex.test(e.target.value) || e.target.value.length < 4) {
+        if (
+          !whiteSpaceRegex.test(e.target.value) ||
+          e.target.value.length < 4
+        ) {
           usernameRef.current.style.display = "block";
         } else {
           usernameRef.current.style.display = "none";
@@ -151,28 +176,17 @@ const Register = (props) => {
     }
   };
 
+  useEffect(() => {
+    alert.forEach((elem) => {
+      if (elem.type === "success") toast.success(elem.msg);
+      else toast.error(elem.msg);
+    });
+  }, [alert]);
+
   return (
     <>
       <Navbar public />
       <RegisterComponent>
-        <div>
-          {alert.map(elem => (
-            <p
-              style={{
-                maxWidth: "320px",
-                margin: "1rem auto 0 auto",
-                borderRadius: "10px",
-                padding: ".5rem",
-                textAlign: "center",
-                color: "white",
-                background: elem.type === "success" ? "green" : "red"
-              }}
-              key={elem.id}
-            >
-              {elem.msg}
-            </p>
-          ))}
-        </div>
         <HeaderOne>Create an account</HeaderOne>
         {/* <p className="helper-form-text">
           Already have an account? <Link to="/login">Log In</Link>
@@ -184,6 +198,7 @@ const Register = (props) => {
               name="name"
               id="name"
               required
+              autoFocus
               placeholder="Name"
               minLength="5"
               value={name}
@@ -228,41 +243,61 @@ const Register = (props) => {
             <select name="lab" id="lab" onChange={onChange} value={lab}>
               <option value="robotic-technology">Robotic Technology</option>
               <option value="electronics-and-iot">Electronics and IoT</option>
-              <option value="data-and-software-technology">Data and Software Technology</option>
-              <option value="animation-and-game-design">Animation and Game Design</option>
+              <option value="data-and-software-technology">
+                Data and Software Technology
+              </option>
+              <option value="animation-and-game-design">
+                Animation and Game Design
+              </option>
               <option value="electric-mobility">Electric Mobility</option>
               <option value="finance-technology">Finanace Technology</option>
               <option value="smart-manufacturing">Smart Manufacturing</option>
-              <option value="aeronautics-and-space-technology">Aeronautics and Space Technology</option>
+              <option value="aeronautics-and-space-technology">
+                Aeronautics and Space Technology
+              </option>
             </select>
           </div>
           <div className="form-group">
-            <input
-              type="password"
-              name="password"
-              id="password"
-              required
-              placeholder="Choose a strong password"
-              value={password}
-              onChange={onChange}
-              minLength="5"
-              ref={passwordMainRef}
-            />
+            <div className="password-div">
+              <input
+                type={hidden ? "password" : "text"}
+                name="password"
+                id="password"
+                required
+                placeholder="Choose a strong password"
+                value={password}
+                onChange={onChange}
+                minLength="5"
+                ref={passwordMainRef}
+              />
+              {hidden ? (
+                <BsEyeFill onClick={handleShowPassword} />
+              ) : (
+                <BsEyeSlashFill onClick={handleShowPassword} />
+              )}
+            </div>
             <small ref={passwordRef} style={errorMessageStyle}>
               Password must be at least 5 characters long
             </small>
           </div>
           <div className="form-group">
-            <input
-              type="password"
-              name="confirmPassword"
-              id="confirmPassword"
-              required
-              placeholder="Confirm your password"
-              value={confirmPassword}
-              onChange={onChange}
-              minLength="5"
-            />
+            <div className="password-div">
+              <input
+                type={hidden2 ? "password" : "text"}
+                name="confirmPassword"
+                id="confirmPassword"
+                required
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={onChange}
+                minLength="5"
+              />
+              {hidden2 ? (
+                <BsEyeFill onClick={handleShowConfirmPassword} />
+              ) : (
+                <BsEyeSlashFill onClick={handleShowConfirmPassword} />
+              )}
+            </div>
             <small ref={confirmPasswordRef} style={errorMessageStyle}>
               Passwords don't match
             </small>
@@ -295,15 +330,15 @@ const Register = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   registerLoginLoading: state.auth.registerLoginLoading,
   alert: state.auth.alert,
-  redirectToLogin: state.auth.redirectToLogin
+  redirectToLogin: state.auth.redirectToLogin,
 });
 
 const mapDispatchToProps = {
   register,
-  setRegisterLoginLoading
+  setRegisterLoginLoading,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

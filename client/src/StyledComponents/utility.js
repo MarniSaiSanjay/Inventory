@@ -178,6 +178,17 @@ export const FormComponent = styled.form`
           }
         }
       `}
+    .password-div {
+      position: relative;
+
+      svg {
+        position: absolute;
+        bottom: 7px;
+        right: 50px;
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
   }
 
   .form-group input {
@@ -227,14 +238,13 @@ export const AllStuff = styled.div`
   }
 
   .info-table {
+    width: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    justify-content: center;
 
-    @media screen and (max-width: 600px) {
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+    table{
+      width: 80%;
+      margin: 1em;
     }
   }
 
@@ -329,13 +339,12 @@ export const Modal = styled.div`
       width: 100%;
     }
 
-    // select.secondChildModal {
-    //   flex-basis: calc(60% + 2rem);
-
-    //   @media screen and (max-width: 370px) {
-    //     width: calc(90% + 2rem);
-    //   }
-    // }
+    textarea {
+      resize: none;
+      max-width: 100%;
+      min-height: 7rem;
+      max-height: 16rem;
+    }
 
     & label:first-of-type {
       margin-right: 0.4rem;

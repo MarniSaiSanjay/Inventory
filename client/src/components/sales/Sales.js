@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { loadUser } from "../../actions/authAction";
 import { getSales } from "../../actions/salesAction";
@@ -8,15 +8,11 @@ import { AllStuff, Button } from "../../StyledComponents/utility";
 import SalesComponent from "../../StyledComponents/private/Sales";
 import callAxios from "../../utils/callAxios";
 
-const Sales = props => {
-  const {
-    loadUser,
-    user,
-    getSales,
-    sales,
-    isAuthenticated,
-    authLoading
-  } = props;
+const Sales = (props) => {
+  const [search, setSearch] = useState("");
+
+  const { loadUser, user, getSales, sales, isAuthenticated, authLoading } =
+    props;
   useEffect(() => {
     loadUser();
     getSales();
@@ -31,13 +27,8 @@ const Sales = props => {
   const handleRecieve = async (id) => {
     try {
       const res = await callAxios("PUT", `sales/${id}/close`);
-
-    } catch (error) {
-
-    }
-
-
-  }
+    } catch (error) {}
+  };
   if (authLoading || sales === null) {
     return (
       <>
@@ -52,19 +43,41 @@ const Sales = props => {
       <>
         <Navbar private />
         <SalesComponent>
-          <h1 className="sales-header">All Issue</h1>
+          <h1 className="sales-header">All Issues</h1>
+          <div className="search-bar">
+            <input
+              className="search-input"
+              name="search"
+              id="search"
+              placeholder="Search Name Of person Issued To..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
+          </div>
           <AllStuff>
             {sales.length !== 0 ? (
-              sales.map((elem, index) => (
-                <div className="all-stuff-content" key={index}>
-                  <div>
-                    <b className="all-stuff-content-bold">Issued To:</b>{" "}
-                    <b className="all-stuff-content-bold"> {elem.issuedTo}</b>
-                  </div>
-                  <div className="info-table">
-                    <div className="all-stuff-content-bold">Issued Items:</div>
+              sales
+                .filter((sale) => sale.issuedTo.toLowerCase().includes(search))
+                .map((elem, index) => (
+                  <div className="all-stuff-content" key={index}>
                     <div>
-                      <table>
+                      <p>
+                        <b className="all-stuff-content-bold">Issued To:</b>
+                        <span className="all-stuff-content-bold">
+                          {elem.issuedTo}
+                        </span>
+                      </p>
+                      <p>
+                        <b className="all-stuff-content-bold">Return Status:</b>
+                        <span className="all-stuff-content-bold">
+                          {elem.isReturned ? "Recieved" : "Pending"}
+                        </span>
+                      </p>
+                    </div>
+                    <div className="info-table">
+                      <table width={"100%"}>
                         <thead>
                           <tr>
                             <th>Name</th>
@@ -73,44 +86,28 @@ const Sales = props => {
                         </thead>
                         <tbody>
                           {elem.products.map(({ name, quantity }, index) => (
-                            // <p key={index}>
-                            //   <div className="all-stuff-content-divold"> Name:</div>
-                            //   <div className="all-stuff-content-divold"> {name}</div>
-                            //   <div className="all-stuff-content-divold">
-                            //     Quantity:
-                            //   </div>
-                            //   <div className="all-stuff-content-divold">
-                            //     {quantity}
-                            //   </div>
-                            // </p>
                             <tr key={index}>
-                              <td>{name}</td>
-                              <td>{quantity}</td>
+                              <td width={"50%"}>{name}</td>
+                              <td width={"50%"}>{quantity}</td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
                     </div>
+
+                    {!elem.isReturned && (
+                      <Button
+                        style={{
+                          backgroundColor: "#3672a4",
+                          marginBottom: "1rem",
+                        }}
+                        onClick={() => handleRecieve(elem._id)}
+                      >
+                        Recieve
+                      </Button>
+                    )}
                   </div>
-                  <p>
-                    <b className="all-stuff-content-bold">Return Status:</b>
-                    <b className="all-stuff-content-bold">
-                      {elem.isReturned ? "Recieved" : "Pending"}
-                    </b>
-                  </p>
-                  {!elem.isReturned && (
-                    <Button
-                      style={{
-                        backgroundColor: "#3672a4",
-                        marginBottom: "1rem",
-                      }}
-                      onClick={() => handleRecieve(elem._id)}
-                    >
-                      Recieve
-                    </Button>
-                  )}
-                </div>
-              ))
+                ))
             ) : (
               <h4 className="all-stuff-headers">
                 You don't have any sales yet
@@ -125,14 +122,14 @@ const Sales = props => {
 
 const mapDispatchToProps = {
   loadUser,
-  getSales
+  getSales,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.auth.user,
   authLoading: state.auth.authLoading,
   isAuthenticated: state.auth.isAuthenticated,
-  sales: state.sales.sales
+  sales: state.sales.sales,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sales);

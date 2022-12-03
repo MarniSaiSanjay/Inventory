@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { loadUser } from "../../actions/authAction";
 import { getProducts } from "../../actions/productsAction";
@@ -8,6 +8,8 @@ import { AllStuff } from "../../StyledComponents/utility";
 import ProductsComponent from "../../StyledComponents/private/Products";
 
 const Products = (props) => {
+  const [search, setSearch] = useState("");
+
   const {
     loadUser,
     getProducts,
@@ -16,15 +18,18 @@ const Products = (props) => {
     isAuthenticated,
     authLoading,
   } = props;
+
   useEffect(() => {
     loadUser();
     getProducts();
   }, []);
+
   useEffect(() => {
     if (!isAuthenticated && !authLoading) {
       props.history.push("/");
     }
   }, [props.history, isAuthenticated, authLoading]);
+
   if (authLoading || products === null) {
     return (
       <>
@@ -39,30 +44,45 @@ const Products = (props) => {
       <>
         <Navbar private />
         <ProductsComponent>
-          <h1 className="products-header">All your Products</h1>
+          <h1 className="products-header">Items Available</h1>
+          <div className="search-bar">
+            <input
+              className="search-input"
+              name="search"
+              id="search"
+              placeholder="Search Products or Description..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
+          </div>
           <AllStuff>
             {products.length !== 0 ? (
-              products.map((elem, index) => (
-                <div key={index} className="all-stuff-content">
-                  <p>
-                    <b className="all-stuff-content-bold">Name of product:</b>{" "}
-                    {elem.name}
-                  </p>
-                  {/* <p>
-                          <b className="all-stuff-content-bold">description:</b>{" "}
-                          #{elem.costPrice}
-                        </p> */}
-
-                  <p>
-                    <b className="all-stuff-content-bold">Amount available:</b>{" "}
-                    {elem.amountAvailable}
-                  </p>
-                  <p>
-                    <b className="all-stuff-content-bold">Description:</b> #
-                    {elem.description}
-                  </p>
-                </div>
-              ))
+              products
+                .filter(
+                  (product) =>
+                    product.name.toLowerCase().includes(search) ||
+                    product.description.toLowerCase().includes(search)
+                )
+                .map((elem, index) => (
+                  <div key={index} className="all-stuff-content">
+                    <p>
+                      <b className="all-stuff-content-bold">Name of product:</b>
+                      {elem.name}
+                    </p>
+                    <p>
+                      <b className="all-stuff-content-bold">
+                        Amount available:
+                      </b>
+                      {elem.amountAvailable}
+                    </p>
+                    <p>
+                      <b className="all-stuff-content-bold">Description:</b># 
+                      {elem.description}
+                    </p>
+                  </div>
+                ))
             ) : (
               <h4 className="all-stuff-headers">
                 You don't have any Products yet

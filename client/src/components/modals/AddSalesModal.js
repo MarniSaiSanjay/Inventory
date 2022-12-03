@@ -166,8 +166,25 @@ const AddSalesModal = (props) => {
                         handleSelectItems(item.name, item.amountAvailable);
                       }}
                       key={`item-${index}`}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        cursor: "pointer",
+                        pointerEvents:
+                          item.amountAvailable === 0 ? "none" : "default",
+                        color: item.amountAvailable === 0 ? "#666" : "white",
+                      }}
                     >
-                      {item.name}
+                      <div>{item.name.slice(0, 30)}</div>
+                      {item.amountAvailable !== 0 ? (
+                        <div>
+                          {item.amountAvailable}
+                          {" "}
+                          {item.amountAvailable === 1 ? "item" : "items"}
+                        </div>
+                      ) : (
+                        <div>Not Available</div>
+                      )}
                     </div>
                   ))}
               </div>
@@ -176,7 +193,7 @@ const AddSalesModal = (props) => {
               id="selected-items"
               style={{
                 display: "flex",
-                flexDirection: "column",
+                flexDirection: "column-reverse",
                 width: "100%",
                 alignItems: "center",
                 justifyContent: "center",
@@ -205,18 +222,21 @@ const AddSalesModal = (props) => {
                       display: "flex",
                       width: "100%",
                       justifyContent: "space-between",
-                      fontWeight:"bold"
+                      fontWeight: "bold",
                     }}
                   >
                     {name}
-                    <MdCancel onClick={() => handleRemoveItems(name)} />
+                    <MdCancel
+                      onClick={() => handleRemoveItems(name)}
+                      style={{ cursor: "pointer" }}
+                    />
                   </div>
                   <div className="modalFlexInput">
                     <p>Quantity: </p>
                     <input
                       className="secondChildModal"
                       type="number"
-                      min="0"
+                      min="1"
                       max={amountAvailable}
                       name="quantity"
                       id="quantity"
@@ -233,7 +253,7 @@ const AddSalesModal = (props) => {
               )}
             </div>
             <div className="modalFlexInput">
-              <p>Issued to: </p>{" "}
+              <p>Issued to: </p>
               <input
                 className="secondChildModal"
                 type="text"
@@ -259,7 +279,7 @@ const AddSalesModal = (props) => {
             style={{ display: "flex", alignItems: "center" }}
           >
             Close
-            <TiCancel style={{fontSize: "1.2em"}}/>
+            <TiCancel style={{ fontSize: "1.2em" }} />
           </Button>
         </div>
       </div>

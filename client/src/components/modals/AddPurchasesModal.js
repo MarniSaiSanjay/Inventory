@@ -2,13 +2,14 @@ import React, { useRef, useEffect, useState } from "react";
 import { Modal, Button } from "../../StyledComponents/utility";
 import { connect } from "react-redux";
 import { togglePurchasesModal } from "../../actions/modalAction";
-import { addPurchase } from "../../actions/purchasesAction"
+import { addPurchase } from "../../actions/purchasesAction";
+import Excel from "../excel/excel";
 
-const AddPurchasesModal = props => {
+const AddPurchasesModal = (props) => {
   const { togglePurchasesModal, showPurchasesModal, addPurchase } = props;
   const modalContent = useRef(null);
   useEffect(() => {
-    window.addEventListener("click", e => {
+    window.addEventListener("click", (e) => {
       if (modalContent.current === null) return;
       if (showPurchasesModal && !modalContent.current.contains(e.target)) {
         togglePurchasesModal();
@@ -19,15 +20,15 @@ const AddPurchasesModal = props => {
   const [sale, setSale] = useState({
     name: "",
     quantity: "",
-    description: ""
+    description: "",
   });
   const { name, quantity, description } = sale;
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setSale({ ...sale, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     addPurchase({
       name,
@@ -35,8 +36,8 @@ const AddPurchasesModal = props => {
       history: [
         {
           quantity,
-        }
-      ]
+        },
+      ],
     });
     togglePurchasesModal();
   };
@@ -45,15 +46,16 @@ const AddPurchasesModal = props => {
     <Modal>
       <div className="modalFlex">
         <div ref={modalContent} className="modalContent">
-          <h2 className="modalHeader"> Add New Items</h2>
+          <h2 className="modalHeader"> Add Items To Inventory</h2>
           <form onSubmit={handleSubmit}>
             <div className="modalFlexInput">
-              <p>Name: </p>{" "}
+              {/* <p>Name: </p> */}
               <input
                 className="secondChildModal"
                 name="name"
                 id="name"
                 type="text"
+                autoFocus
                 required
                 placeholder="Name of product"
                 value={name}
@@ -61,7 +63,7 @@ const AddPurchasesModal = props => {
               />
             </div>
             <div className="modalFlexInput">
-              <p>Quantity: </p>{" "}
+              {/* <p>Quantity: </p> */}
               <input
                 className="secondChildModal"
                 type="number"
@@ -74,50 +76,8 @@ const AddPurchasesModal = props => {
                 onChange={handleChange}
               />
             </div>
-            {/* <div className="modalFlexInput">
-              <p>Bought from: </p>{" "}
-              <input
-                className="secondChildModal"
-                type="text"
-                name="boughtFrom"
-                id="boughtFrom"
-                placeholder="Supplier product was bought from"
-                required
-                value={boughtFrom}
-                onChange={handleChange}
-              />
-            </div> */}
-            {/* <div className="modalFlexInput">
-              <p>Cost price: </p>{" "}
-              <input
-                className="secondChildModal"
-                type="number"
-                name="costPrice"
-                id="costPrice"
-                min="1"
-                required
-                placeholder="How much did you buy this product"
-                value={costPrice}
-                onChange={handleChange}
-              />
-            </div> */}
-            {/* <div className="modalFlexInput">
-              <p>Selling price: </p>{" "}
-              <input
-                className="secondChildModal"
-                type="number"
-                name="sellingPrice"
-                id="sellingPrice"
-                min="1"
-                required
-                placeholder="How much do you wish to sell this product"
-                value={sellingPrice}
-                onChange={handleChange}
-              />
-
-            </div> */}
             <div className="modalFlexInput">
-              <p>Description: </p>{" "}
+              {/* <p>Description: </p> */}
               <textarea
                 className="secondChildModal"
                 type="text"
@@ -129,9 +89,12 @@ const AddPurchasesModal = props => {
               />
             </div>
             <Button type="submit" submitButton>
-              Add Purchase
+              Manually Add Item
             </Button>
           </form>
+          <div style={{textAlign:"center"}}>OR</div>
+          <Excel />
+
           <Button onClick={togglePurchasesModal} closeButton>
             Close
           </Button>
@@ -141,12 +104,13 @@ const AddPurchasesModal = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  showPurchasesModal: state.modal.showPurchasesModal
+const mapStateToProps = (state) => ({
+  showPurchasesModal: state.modal.showPurchasesModal,
 });
 
 const mapDispatchToProps = {
-  togglePurchasesModal, addPurchase
+  togglePurchasesModal,
+  addPurchase,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddPurchasesModal);

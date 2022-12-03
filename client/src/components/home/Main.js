@@ -90,7 +90,7 @@ const Main = () => {
         <div className="features-body">
           <div className="opener">
             {labInfo.map(({ lab, desc, bool }) => (
-              <>
+              <React.Fragment key={lab}>
                 <FeatureClickParagraph
                   clicked={showFeatureBool(bool)}
                   onClick={() => showOpener(bool)}
@@ -105,13 +105,16 @@ const Main = () => {
                   <h3>{lab}</h3>
                   <p>{desc}</p>
                 </FeatureOpenedContent>
-              </>
+              </React.Fragment>
             ))}
           </div>
 
           <div className="opener-content">
             {labInfo.map(({ lab, desc, bool, state }) => (
-              <FeatureOpenedContent showContent={showFeatureBool(bool)}>
+              <FeatureOpenedContent
+                showContent={showFeatureBool(bool)}
+                key={state}
+              >
                 <h3>{lab}</h3>
                 <p>{desc}</p>
                 <Link

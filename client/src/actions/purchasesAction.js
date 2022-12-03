@@ -28,6 +28,7 @@ export const addPurchase = data => async dispatch => {
   const id = uuid.v4();
   try {
     const res = await callAxios("POST", "/purchases", data);
+    console.log(res.data);
     dispatch({
       type: ADD_PURCHASES,
       payload: {

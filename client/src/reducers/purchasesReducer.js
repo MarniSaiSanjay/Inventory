@@ -3,7 +3,7 @@ import {
   PURCHASES_ERROR,
   ADD_PURCHASES,
   ADD_PURCHASES_ERROR,
-  CLEAR_ALERT
+  CLEAR_ALERT,
 } from "../actions/types";
 
 const initialState = {
@@ -11,7 +11,7 @@ const initialState = {
   purchases: null,
   loadingPurchases: false,
   error: null,
-  purchasesAlert: []
+  purchasesAlert: [],
 };
 
 let purchasesArr = [];
@@ -20,8 +20,8 @@ let alertArr = [...initialState.purchasesAlert];
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_PURCHASES:
-      purchasesArr = []
-      console.log(action.payload)
+      purchasesArr = [];
+      console.log(action.payload);
       action.payload.forEach((elem, index) => {
         // console.log("Elem", elem)
         // purchasesArr = elem.history;
@@ -31,27 +31,26 @@ export default (state = initialState, action) => {
             description: e.description,
             // boughtFrom: e.boughtFrom,
             dateBought: e.dateBought,
-            numberBought: e.quantity
+            numberBought: e.quantity,
             // costPrice: elem.costPrice
           });
         });
-
       });
-      console.log(purchasesArr)
+      console.log(purchasesArr);
       return {
         ...state,
-        purchasesDashboard: action.payload.slice(0, 5).map(elem => [
+        purchasesDashboard: action.payload.slice(0, 5).map((elem) => [
           {
             name: elem.name,
             // costPrice: elem.costPrice,
-            lastHistory: elem.history[elem.history.length - 1]
-          }
+            lastHistory: elem.history[elem.history.length - 1],
+          },
         ]),
-        purchases: purchasesArr
+        purchases: purchasesArr,
       };
     case PURCHASES_ERROR:
       return {
-        ...state
+        ...state,
       };
     case ADD_PURCHASES:
       // console.log(action.payload)
@@ -59,7 +58,7 @@ export default (state = initialState, action) => {
       alertArr.unshift(action.payload.alert);
       return {
         ...state,
-        purchasesAlert: alertArr
+        purchasesAlert: alertArr,
       };
     case ADD_PURCHASES_ERROR:
       // console.log(action.payload)
@@ -67,13 +66,13 @@ export default (state = initialState, action) => {
       alertArr.unshift(action.payload.alert);
       return {
         ...state,
-        purchasesAlert: alertArr
+        purchasesAlert: alertArr,
       };
     case CLEAR_ALERT:
       alertArr = [...state.purchasesAlert];
       return {
         ...state,
-        purchasesAlert: alertArr.filter(elem => elem.id !== action.payload)
+        purchasesAlert: alertArr.filter((elem) => elem.id !== action.payload),
       };
 
     default:

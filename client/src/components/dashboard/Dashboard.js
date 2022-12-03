@@ -9,7 +9,7 @@ import { getSuppliers } from "../../actions/suppliersAction";
 import { getCustomers } from "../../actions/customersAction";
 import {
   togglePurchasesModal,
-  toggleSalesModal
+  toggleSalesModal,
 } from "../../actions/modalAction";
 import Spinner from "../layout/Spinner";
 import DashboardComponent from "../../StyledComponents/private/Dashboard";
@@ -18,8 +18,9 @@ import { Button } from "../../StyledComponents/utility";
 import ProductsComponent from "../../StyledComponents/private/Products";
 import { AllStuff } from "../../StyledComponents/utility";
 import callAxios from "../../utils/callAxios";
+import { toast } from "react-toastify";
 
-const Dashboard = props => {
+const Dashboard = (props) => {
   const {
     isAuthenticated,
     getSuppliers,
@@ -39,7 +40,9 @@ const Dashboard = props => {
     authLoading,
     logout,
     toggleSalesModal,
-    togglePurchasesModal, salesAlert, purchasesAlert,
+    togglePurchasesModal,
+    salesAlert,
+    purchasesAlert,
   } = props;
 
   useEffect(() => {
@@ -50,16 +53,15 @@ const Dashboard = props => {
     getSuppliers();
     getCustomers();
   }, []);
-  const [allProducts, setAllProducts] = useState(null)
+  const [allProducts, setAllProducts] = useState(null);
 
   useEffect(() => {
     const getAllProducts = async () => {
       const res = await callAxios("GET", "/products");
-      setAllProducts(res.data.products)
-    }
+      setAllProducts(res.data.products);
+    };
     getAllProducts();
-  }, [])
-
+  }, []);
 
   useEffect(() => {
     if (!isAuthenticated && !authLoading) {
@@ -71,6 +73,17 @@ const Dashboard = props => {
     logout();
   };
 
+  useEffect(() => {
+    salesAlert.forEach(elem => {
+      if(elem.type === "success") toast.success(elem.msg);
+      else toast.error(elem.msg);
+    });
+
+    purchasesAlert.forEach(elem => {
+      if(elem.type === "success") toast.success(elem.msg);
+      else toast.error(elem.msg);
+    });
+  }, [salesAlert, purchasesAlert]);
 
   if (
     authLoading ||
@@ -137,8 +150,8 @@ const Dashboard = props => {
               </div>
             </div>
             <div className="right" style={{ padding: "1rem" }}>
-              <div>
-                {salesAlert.map(elem => (
+              {/* <div>
+                {salesAlert.map((elem) =>
                   <p
                     style={{
                       maxWidth: "320px",
@@ -147,33 +160,37 @@ const Dashboard = props => {
                       padding: ".5rem",
                       textAlign: "center",
                       color: "white",
-                      background: elem.type === "success" ? "green" : "red"
+                      background: elem.type === "success" ? "green" : "red",
                     }}
                     key={elem.id}
                   >
                     {elem.msg}
                   </p>
-                ))}
+                  // toast.success(elem.msg)
+                )}
               </div>
               <div>
-                {purchasesAlert.map(elem => (
-                  <p
-                    style={{
-                      maxWidth: "320px",
-                      margin: "1rem auto 0 auto",
-                      borderRadius: "10px",
-                      padding: ".5rem",
-                      textAlign: "center",
-                      color: "white",
-                      background: elem.type === "success" ? "green" : "red"
-                    }}
-                    key={elem.id}
-                  >
-                    {elem.msg}
-                  </p>
-                ))}
-              </div>
-              <div className="right" style={{ padding: "1rem", paddingBottom: "1rem" }}>
+              {purchasesAlert.map((elem) =>
+                <p
+                  style={{
+                    maxWidth: "320px",
+                    margin: "1rem auto 0 auto",
+                    borderRadius: "10px",
+                    padding: ".5rem",
+                    textAlign: "center",
+                    color: "white",
+                    background: elem.type === "success" ? "green" : "red"
+                  }}
+                  key={elem.id}
+                >
+                  {elem.msg}
+                </p>
+              )}
+              </div> */}
+              <div
+                className="right"
+                style={{ padding: "1rem", paddingBottom: "1rem" }}
+              >
                 <div className="add">
                   <Button
                     onClick={toggleSalesModal}
@@ -188,13 +205,11 @@ const Dashboard = props => {
                     title="Add a purchase"
                     className="add-purchase"
                     style={{ backgroundColor: "#323237", marginBottom: "1rem" }}
-
                   >
                     Add New Items
                   </Button>
                 </div>
               </div>
-
 
               <ProductsComponent>
                 <h1 className="products-header">All Available Items</h1>
@@ -203,7 +218,9 @@ const Dashboard = props => {
                     allProducts.map((elem, index) => (
                       <div key={index} className="all-stuff-content">
                         <p>
-                          <b className="all-stuff-content-bold">Name of Item:</b>{" "}
+                          <b className="all-stuff-content-bold">
+                            Name of Item:
+                          </b>{" "}
                           {elem.name}
                         </p>
                         {/* <p>
@@ -397,10 +414,10 @@ const mapDispatchToProps = {
   getSuppliers,
   getCustomers,
   toggleSalesModal,
-  togglePurchasesModal
+  togglePurchasesModal,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.auth.user,
   authLoading: state.auth.authLoading,
   isAuthenticated: state.auth.isAuthenticated,
@@ -412,7 +429,7 @@ const mapStateToProps = state => ({
   showPurchasesModal: state.modal.showPurchasesModal,
   showSalesModal: state.modal.showSalesModal,
   salesAlert: state.sales.salesAlert,
-  purchasesAlert: state.purchases.purchasesAlert
+  purchasesAlert: state.purchases.purchasesAlert,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

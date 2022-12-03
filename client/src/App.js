@@ -8,6 +8,8 @@ import {
   useParams,
   Redirect
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Home from "./components/home/Home";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
@@ -53,7 +55,18 @@ function App() {
         </Switch>
         <Modals />
       </Router>
-      <Footer/>
+      <ToastContainer
+        position="top-left"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        limit={1}
+        draggable
+        pauseOnHover
+      />
+      <Footer />
     </Provider>
   );
 }

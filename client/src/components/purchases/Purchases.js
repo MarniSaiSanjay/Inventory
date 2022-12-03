@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { loadUser } from "../../actions/authAction";
 import { getPurchases } from "../../actions/purchasesAction";
@@ -8,6 +8,8 @@ import { AllStuff } from "../../StyledComponents/utility";
 import PurchasesComponent from "../../StyledComponents/private/Purchases";
 
 const Purchases = (props) => {
+  const [search, setSearch] = useState("");
+
   const {
     loadUser,
     user,
@@ -41,7 +43,19 @@ const Purchases = (props) => {
       <>
         <Navbar private />
         <PurchasesComponent>
-          <h1 className="purchases-header">All your Purchases</h1>
+          <h1 className="purchases-header">Purchases</h1>
+          <div className="search-bar">
+            <input
+              className="search-input"
+              name="search"
+              id="search"
+              placeholder="Search Products..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
+          </div>
           <AllStuff>
             {purchases.length !== 0 ? (
               <table style={{ width: "100%" }}>
@@ -53,13 +67,17 @@ const Purchases = (props) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {purchases.map(({ name, numberBought, dateBought }, i) => (
-                    <tr key={i}>
-                      <td>{name}</td>
-                      <td>{numberBought}</td>
-                      <td>{dateBought}</td>
-                    </tr>
-                  ))}
+                  {purchases
+                    .filter((purchase) =>
+                      purchase.name.toLowerCase().includes(search)
+                    )
+                    .map(({ name, numberBought, dateBought }, i) => (
+                      <tr key={i}>
+                        <td>{name}</td>
+                        <td>{numberBought}</td>
+                        <td>{dateBought}</td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             ) : (
