@@ -6,6 +6,7 @@ import Spinner from "../layout/Spinner";
 import Navbar from "../home/Navbar";
 import { AllStuff } from "../../StyledComponents/utility";
 import PurchasesComponent from "../../StyledComponents/private/Purchases";
+import { JSONRowsToSheet } from "../../utils/excelHelper";
 
 const Purchases = (props) => {
   const [search, setSearch] = useState("");
@@ -55,6 +56,17 @@ const Purchases = (props) => {
                 setSearch(e.target.value);
               }}
             />
+            <button onClick={() => {
+              console.log(purchases);
+              const rows = purchases.map(row => ({
+                name: row.name,
+                dateOfPurchase: row.dateBought,
+                quantityPurchased: row.numberBought
+              }))
+              JSONRowsToSheet({ rows, fileName: "purchases_history" });
+            }}
+            >Download Excel Sheet</button>
+
           </div>
           <AllStuff>
             {purchases.length !== 0 ? (

@@ -3,9 +3,11 @@ import { Modal, Button } from "../../StyledComponents/utility";
 import { connect } from "react-redux";
 import { togglePurchasesModal } from "../../actions/modalAction";
 import { addPurchase } from "../../actions/purchasesAction";
-import Excel from "../excel/excel";
+import { excelTableToJSONArray } from "../../utils/excelHelper";
 
 const AddPurchasesModal = (props) => {
+  const [excelData, setExcelData] = useState(null);
+  const [loader, setLoader] = useState(false);
   const { togglePurchasesModal, showPurchasesModal, addPurchase } = props;
   const modalContent = useRef(null);
   useEffect(() => {
@@ -27,7 +29,7 @@ const AddPurchasesModal = (props) => {
   const handleChange = (e) => {
     setSale({ ...sale, [e.target.name]: e.target.value });
   };
-
+  const [error, setError] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
     addPurchase({
@@ -41,6 +43,28 @@ const AddPurchasesModal = (props) => {
     });
     togglePurchasesModal();
   };
+
+  const handleExcelSubmit = async (e) => {
+    e.preventDefault();
+    if (!excelData) return setError("Choose File!");
+    setLoader(true);
+    await Promise.all(
+      excelData.map(async ({ name, quantity, description }) => {
+        await addPurchase({
+          name,
+          description,
+          history: [
+            {
+              quantity,
+            },
+          ],
+        });
+      })
+    )
+    setError("");
+    setLoader(false);
+    alert("Uploaded Sucessfully");
+  }
 
   return (
     <Modal>
@@ -92,8 +116,40 @@ const AddPurchasesModal = (props) => {
               Manually Add Item
             </Button>
           </form>
-          <div style={{textAlign:"center"}}>OR</div>
-          <Excel />
+          <div style={{ textAlign: "center" }}>OR</div>
+          <form onSubmit={handleExcelSubmit}>
+            <Button submitButton type="submit" disabled={error}>
+              Upload Excel Sheet
+            </Button>
+
+            <div style={{ textAlign: "center" }}>
+              Excel File Must Have Only <strong style={{ color: "red" }}>name</strong>, <strong style={{ color: "red" }}>quantity</strong>, and <strong style={{ color: "red" }}>description</strong> as Header
+            </div>
+
+            <input
+              className="inputfile"
+              type="file"
+              id="file"
+              accept=".xls,.xlsx"
+              onChange={async (e) => {
+                setError("");
+                const file = e.target.files[0];
+                try {
+                  const data = await excelTableToJSONArray({ file });
+                  setExcelData(data);
+                } catch (error) {
+                  setExcelData(null);
+                  setError(error.message);
+                }
+
+              }}
+            />
+            <div>
+              {error && <span style={{ color: "red" }}>{error}</span>}
+              {loader && <span> Uploading...</span>}
+            </div>
+
+          </form>
 
           <Button onClick={togglePurchasesModal} closeButton>
             Close

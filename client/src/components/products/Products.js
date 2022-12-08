@@ -6,6 +6,7 @@ import Spinner from "../layout/Spinner";
 import Navbar from "../home/Navbar";
 import { AllStuff } from "../../StyledComponents/utility";
 import ProductsComponent from "../../StyledComponents/private/Products";
+import { JSONRowsToSheet } from "../../utils/excelHelper";
 
 const Products = (props) => {
   const [search, setSearch] = useState("");
@@ -29,6 +30,8 @@ const Products = (props) => {
       props.history.push("/");
     }
   }, [props.history, isAuthenticated, authLoading]);
+
+
 
   if (authLoading || products === null) {
     return (
@@ -56,7 +59,20 @@ const Products = (props) => {
                 setSearch(e.target.value);
               }}
             />
+            <button onClick={()=>
+              {
+                const rows = products.map(row =>({
+                  name:row.name,
+                  description:row.description,
+                  amountAvailable: row.amountAvailable 
+                }))
+                JSONRowsToSheet({rows, fileName:"available_items"})}
+              }
+                >Download Excel Sheet</button>
+
           </div>
+
+
           <AllStuff>
             {products.length !== 0 ? (
               products
@@ -78,7 +94,7 @@ const Products = (props) => {
                       {elem.amountAvailable}
                     </p>
                     <p>
-                      <b className="all-stuff-content-bold">Description:</b># 
+                      <b className="all-stuff-content-bold">Description:</b>#
                       {elem.description}
                     </p>
                   </div>

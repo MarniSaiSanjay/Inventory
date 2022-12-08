@@ -7,6 +7,7 @@ import Navbar from "../home/Navbar";
 import { AllStuff, Button } from "../../StyledComponents/utility";
 import SalesComponent from "../../StyledComponents/private/Sales";
 import callAxios from "../../utils/callAxios";
+import { JSONRowsToSheet } from "../../utils/excelHelper";
 
 const Sales = (props) => {
   const [search, setSearch] = useState("");
@@ -27,7 +28,7 @@ const Sales = (props) => {
   const handleRecieve = async (id) => {
     try {
       const res = await callAxios("PUT", `sales/${id}/close`);
-    } catch (error) {}
+    } catch (error) { }
   };
   if (authLoading || sales === null) {
     return (
@@ -55,6 +56,19 @@ const Sales = (props) => {
                 setSearch(e.target.value);
               }}
             />
+            <button onClick={() => {
+              console.log(sales);
+              let rows = [];
+              sales.forEach(({ issuedTo, products, date, isReturned, returnDate }) => {
+                let row = { issuedTo, issuedDate: new Date(date).toLocaleString(), isReturned, returnDate }
+                products.forEach(({ name, quantity }) => {
+                  rows.push({ ...row, productName: name, quantity })
+                })
+              })
+              console.log(rows);
+              JSONRowsToSheet({ rows, fileName: "all_issues" });
+            }}
+            >Download Excel Sheet</button>
           </div>
           <AllStuff>
             {sales.length !== 0 ? (
